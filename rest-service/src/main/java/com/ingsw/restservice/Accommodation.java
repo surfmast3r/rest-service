@@ -4,7 +4,7 @@ public class Accommodation {
 	
 	private long id;
 	private String content;
-	private String name;
+	private String name ;
 
 	public Accommodation(long id, String content, String name) {
 		this.id = id;
