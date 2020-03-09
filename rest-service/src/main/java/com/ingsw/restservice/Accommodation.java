@@ -2,12 +2,14 @@ package com.ingsw.restservice;
 
 public class Accommodation {
 	
-	private final long id;
-	private final String content;
+	private long id;
+	private String content;
+	private String name;
 
-	public Accommodation(long id, String content) {
+	public Accommodation(long id, String content, String name) {
 		this.id = id;
 		this.content = content;
+		this.name = name;
 	}
 
 	public long getId() {
@@ -16,6 +18,10 @@ public class Accommodation {
 
 	public String getContent() {
 		return content;
+	}
+	
+	public String getName() {
+		return name;
 	}
 
 }
