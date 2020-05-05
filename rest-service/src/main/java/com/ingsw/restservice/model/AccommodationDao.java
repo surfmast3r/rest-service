@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface AccommodationDao {
 
-	public List getAllAccommodation();
+	public List<Accommodation> findAll();
 	public List getAccommodationByCity(String city);
 }

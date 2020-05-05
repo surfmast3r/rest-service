@@ -1,26 +1,30 @@
 package com.ingsw.restservice.model;
 
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "accommodations")
 public class Accommodation {
 	
+	@Id
 	private long id;
+	
 	private String description;
 	private String name ;
-	private String logoUrl;
+	private String logourl;
 	private Double latitude;
 	private Double longitude;
 	private String city;
 	private String address;
 	private Float rating;
 	private String category;
-	private String subCategory;
-	private List<String> images;
+	private String subcategory;
+	private String images;
 
-	public Accommodation(long id, String content, String name) {
-		this.id = id;
-		this.description = content;
-		this.name = name;
+	public Accommodation() {
+	
 	}
 
 	private Accommodation(Builder accommodationBuilder) {
@@ -28,12 +32,12 @@ public class Accommodation {
 		this.description = accommodationBuilder.description;
 		this.name = accommodationBuilder.name;
 		this.address=accommodationBuilder.address;
-		this.logoUrl = accommodationBuilder.logoUrl;
+		this.logourl = accommodationBuilder.logoUrl;
 		this.city = accommodationBuilder.city;
 		this.latitude = accommodationBuilder.latitude;
 		this.longitude = accommodationBuilder.longitude;
 		this.category = accommodationBuilder.category;
-		this.subCategory = accommodationBuilder.subCategory;
+		this.subcategory = accommodationBuilder.subCategory;
 		this.rating = accommodationBuilder.rating;
 		this.images = accommodationBuilder.images;
 				
@@ -42,7 +46,7 @@ public class Accommodation {
 	
 
 	/*getter*/
-	public List<String> getImages() {
+	public String getImages() {
 		return images;
 	}
 	
@@ -59,7 +63,7 @@ public class Accommodation {
 	}
 	
 	public String getLogoUrl() {
-		return logoUrl;
+		return logourl;
 	}
 
 	public String getCity() {
@@ -87,7 +91,7 @@ public class Accommodation {
 	}
 	
 	public String getSubCategory() {
-		return subCategory;
+		return subcategory;
 	}
 
 	
@@ -122,7 +126,7 @@ public class Accommodation {
 		private String category; 
 		private String subCategory; 
 		private String description;
-		private List<String> images;
+		private String images;
 		
 		public Builder setId(long id) {
 			this.id = id;
@@ -169,7 +173,7 @@ public class Accommodation {
 			this.subCategory = subCategory;
 			return this;
 		}
-		 public Builder setImages(List<String> images) {
+		 public Builder setImages(String images) {
 	            this.images = images;
 	            return this;
 	        }
