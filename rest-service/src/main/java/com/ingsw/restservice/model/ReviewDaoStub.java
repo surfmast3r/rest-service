@@ -13,10 +13,14 @@ public class ReviewDaoStub implements ReviewDao {
         	String reviewText=getReviewText(rating);
             String sDate=(i+1)+"/12/2020";
             reviewList.add(new Review.Builder()
+            		.setId(i)
+            		.setAccommodationId(i)
+            		.setAccommodationName("Da Peppino "+i)
                     .setAuthor("Paolo")
                     .setReviewText(reviewText)
                     .setRating(rating)
                     .setData(sDate)
+                    .setStatus(Status.PENDING)
                     .build()
             );
 
@@ -27,8 +31,19 @@ public class ReviewDaoStub implements ReviewDao {
 
 	@Override
 	public Review getReviewById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		float rating=(float) (1 + Math.random() * (5 - 1));
+		String reviewText=getReviewText(rating);
+        String sDate=id+"/12/2020";
+		return new Review.Builder()
+        		.setId(id)
+        		.setAccommodationId(id)
+        		.setAccommodationName("Da Peppino "+id)
+                .setAuthor("Paolo")
+                .setReviewText(reviewText)
+                .setRating(rating)
+                .setData(sDate)
+                .setStatus(Status.PENDING)
+                .build();
 	}
 	
 	private String getReviewText(float rating) {

@@ -27,4 +27,11 @@ public class AccommodationDaoSql implements AccommodationDao {
 		return null;
 	}
 
+
+	@Override
+	public Accommodation getAccommodationById(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

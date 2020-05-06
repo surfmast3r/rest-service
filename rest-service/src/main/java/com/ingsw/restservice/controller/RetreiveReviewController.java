@@ -15,11 +15,19 @@ public class RetreiveReviewController {
 
 	private ReviewDao reviewDao;
 	
-	@GetMapping("/review")
-	public List<Review> getReviews(@RequestParam(value = "accommodation") String accommodationId) {
+	@GetMapping(value = "/review", params = "accommodationId")
+	public List<Review> getReviews(@RequestParam int accommodationId) {
 		
 		reviewDao = new ReviewDaoStub();
-		return reviewDao.getReviewList(Integer.valueOf(accommodationId));
+		return reviewDao.getReviewList(accommodationId);
+		
+		
+	}
+	@GetMapping(value = "/review", params = "reviewId")
+	public Review getReviewById(@RequestParam int reviewId) {
+		
+		reviewDao = new ReviewDaoStub();
+		return reviewDao.getReviewById(reviewId);
 		
 		
 	}

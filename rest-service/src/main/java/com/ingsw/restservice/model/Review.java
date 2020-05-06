@@ -2,17 +2,36 @@ package com.ingsw.restservice.model;
 
 public class Review {
 
+
+    private int id;
+    private int accommodationId;
+    private String accommodationName;
 	private String author;
     private String reviewText;
     private float rating;
     private String data;
+    private Status status;
     
     public Review(Builder builder) {
+    	this.id=builder.id;
+    	this.accommodationId=builder.accommodationId;
+    	this.accommodationName=builder.accommodationName;
         this.author=builder.author;
         this.reviewText=builder.reviewText;
         this.rating=builder.rating;
         this.data= builder.data;
+        this.status=builder.status;
     }
+    public int getId() {
+        return id;
+    }
+    public int getAccommodationId() {
+  		return accommodationId;
+  	}
+    
+    public String getAccommodationName() {
+  		return accommodationName;
+  	}
     
     public String getAuthor() {
         return author;
@@ -30,13 +49,25 @@ public class Review {
         return rating;
     }
     
+    public Status getStatus() {
+		return status;
+	}
+    
     public static class Builder {
 
-        public String data;
+    	private int id;
+    	public int accommodationId;
+        private String accommodationName;
+		private String data;
         private String author;
         private String reviewText;
         private float rating;
+        private Status status;
 
+        public Builder setId(int id) {
+            this.id = id;
+            return this;
+        }
         public Builder setReviewText(String reviewText) {
             this.reviewText = reviewText;
             return this;
@@ -47,6 +78,16 @@ public class Review {
             return this;
         }
 
+        public Builder setAccommodationId(int idAccommodation) {
+            this.accommodationId = idAccommodation;
+            return this;
+        }
+        
+        public Builder setAccommodationName(String nameAccommodation) {
+			this.accommodationName = nameAccommodation;
+			return this;
+		}
+        
         public Builder setAuthor(String author) {
             this.author = author;
             return this;
@@ -54,6 +95,11 @@ public class Review {
         public Builder setData(String data) {
             this.data = data;
             return this;
+        }
+        
+        public Builder setStatus(Status status) {
+        	this.status=status;
+        	return this;
         }
 
         public Review build() {

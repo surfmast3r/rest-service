@@ -6,4 +6,5 @@ public interface AccommodationDao {
 
 	public List<Accommodation> findAll();
 	public List getAccommodationByCity(String city);
+	public Accommodation getAccommodationById(int id);
 }

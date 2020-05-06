@@ -61,6 +61,26 @@ public class AccommodationDaoStub implements AccommodationDao{
 		return accommodationList;
 	}
 
+	@Override
+	public Accommodation getAccommodationById(int id) {
+		double lat = 40.857362 + Math.random() * (40.857362 - 40.870000);
+        double longitude = 14.261627 + Math.random() * (14.261627 - 14.300000);
+		return new Accommodation.Builder()
+				.setId(id)
+                .setName("Da Peppino"+id)
+                .setDescription("Descrizione ristorante da Peppino "+id)
+                .setCategory("RESTAURANT")
+                .setSubCategory("PIZZERIA")
+                .setCity("napoli")
+                .setAddress("Via Bernardo Cavallino 27")
+                .setLatitude(lat)
+                .setLongitude(longitude)
+                .setImages("https://www.oasidellapizza.it/wp-content/uploads/revslider/steweysfullslider/5.jpg")
+                //.setImages(new ArrayList<String>(Arrays.asList("https://www.oasidellapizza.it/wp-content/uploads/revslider/steweysfullslider/5.jpg")))
+                .setRating((float) (1 + Math.random() * (5 - 1)))
+                .build();
+	}
+
 
 
 }
