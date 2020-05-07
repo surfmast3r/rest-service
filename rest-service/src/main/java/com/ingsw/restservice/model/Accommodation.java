@@ -20,7 +20,7 @@ public class Accommodation {
 	private String address;
 	private Float rating;
 	private String category;
-	private String subcategory;
+	private String subCategory;
 	private String images;
 
 	public Accommodation() {
@@ -37,7 +37,7 @@ public class Accommodation {
 		this.latitude = accommodationBuilder.latitude;
 		this.longitude = accommodationBuilder.longitude;
 		this.category = accommodationBuilder.category;
-		this.subcategory = accommodationBuilder.subCategory;
+		this.subCategory = accommodationBuilder.subCategory;
 		this.rating = accommodationBuilder.rating;
 		this.images = accommodationBuilder.images;
 				
@@ -91,7 +91,7 @@ public class Accommodation {
 	}
 	
 	public String getSubCategory() {
-		return subcategory;
+		return subCategory;
 	}
 
 	

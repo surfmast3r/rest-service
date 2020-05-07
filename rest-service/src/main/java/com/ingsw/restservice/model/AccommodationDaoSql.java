@@ -34,4 +34,27 @@ public class AccommodationDaoSql implements AccommodationDao {
 		return null;
 	}
 
+
+	@Override
+	public void createAccommodation(Accommodation accommodation) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public boolean editAccommodation(int accommodationId, Accommodation accommodation) {
+		return false;
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public boolean deleteAccommodation(int accommodationId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
 }

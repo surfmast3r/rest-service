@@ -5,6 +5,9 @@ import java.util.List;
 public interface AccommodationDao {
 
 	public List<Accommodation> findAll();
-	public List getAccommodationByCity(String city);
+	public List<Accommodation> getAccommodationByCity(String city);
 	public Accommodation getAccommodationById(int id);
+	public void createAccommodation(Accommodation accommodation);
+	public boolean editAccommodation(int accommodationId, Accommodation accommodation);
+	public boolean deleteAccommodation(int accommodationId);
 }
