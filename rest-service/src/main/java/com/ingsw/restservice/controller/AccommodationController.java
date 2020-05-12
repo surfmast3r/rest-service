@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +25,14 @@ public class AccommodationController {
 	@Qualifier("accommodationDaoStub")
 	private AccommodationDao acDao;
 	
+	@RequestMapping(value = "/")
+	public ResponseEntity<Object> welcomeMessage() { 
+      
+		return new ResponseEntity<>("CoVi19 up and running!!!", HttpStatus.OK);
+		
+   }
+	
+	
 	@RequestMapping(method = RequestMethod.GET, value="/accommodation",params = "city")
 	@ResponseBody	
 	public List<Accommodation> getAccommodations(@RequestParam(defaultValue = "all") String city) {
@@ -37,11 +46,14 @@ public class AccommodationController {
 	
 	@RequestMapping(method = RequestMethod.GET, value="/accommodation",params ="accommodationId")
 	@ResponseBody	
-	public Accommodation getAccommodationById(@RequestParam int accommodationId) {
-	
+	public ResponseEntity<Object> getAccommodationById(@RequestParam int accommodationId) {
+
 		//acDao = new AccommodationDaoSql();
-	
-		return acDao.getAccommodationById(accommodationId);
+		Accommodation accommodation=acDao.getAccommodationById(accommodationId);
+		if(accommodation!=null)
+			return new ResponseEntity<>(accommodation, HttpStatus.OK);
+		else
+			return new ResponseEntity<>(new EmptyJsonResponse(), HttpStatus.OK);
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value="/accommodation/create")
@@ -50,7 +62,7 @@ public class AccommodationController {
 	
 		acDao.createAccommodation(accommodation);
 	
-		return  new ResponseEntity<>("Product is created successfully", HttpStatus.CREATED);
+		return  new ResponseEntity<>("Accommodation is created successfully", HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(value = "/accommodation/edit/{id}", method = RequestMethod.PUT)
@@ -59,19 +71,19 @@ public class AccommodationController {
 		boolean response=acDao.editAccommodation(id,accommodation);
 		
 		if(response) {
-			return new ResponseEntity<>("Product is updated successsfully", HttpStatus.OK);
+			return new ResponseEntity<>("Accommodation is updated", HttpStatus.OK);
 		}
 		else
-			return new ResponseEntity<>("Product not updated", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("Accommodation not updated", HttpStatus.OK);
 		
    }
 	
 	@RequestMapping(value = "/accommodation/delete/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Object> delete(@PathVariable("id") int id) { 
       if(acDao.deleteAccommodation(id)) {
-    	  return new ResponseEntity<>("Product is deleted successsfully", HttpStatus.OK);
+    	  return new ResponseEntity<>("Accommodation is deleted", HttpStatus.OK);
       }
       else
-    	  return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
+    	  return new ResponseEntity<>("Accommodation not found", HttpStatus.OK);
    }
 }

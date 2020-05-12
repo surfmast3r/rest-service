@@ -11,7 +11,7 @@ import com.ingsw.restservice.model.ReviewDao;
 import com.ingsw.restservice.model.ReviewDaoStub;
 
 @RestController	
-public class RetreiveReviewController {
+public class ReviewController {
 
 	private ReviewDao reviewDao;
 	

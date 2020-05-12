@@ -14,7 +14,7 @@ public class AccommodationDaoStub implements AccommodationDao{
 	
 	public AccommodationDaoStub() {
 		
-		accommodationList=createAccommodationList();
+		accommodationList=createAccommodationList("Napoli");
 	}
 	 
 
@@ -28,7 +28,7 @@ public class AccommodationDaoStub implements AccommodationDao{
 		
 		ArrayList<Accommodation> accommodationByCity= new ArrayList<Accommodation>();
 		for(int i=0;i<accommodationList.size();i++) {
-			if(accommodationList.get(i).getCity().equals(city)) {
+			if(accommodationList.get(i).getCity().equals(city.toUpperCase())) {
 				accommodationByCity.add(accommodationList.get(i));
 				
 			}
@@ -37,7 +37,7 @@ public class AccommodationDaoStub implements AccommodationDao{
 	}
 
 	@Override
-	public Accommodation getAccommodationById(int id) {
+	public Accommodation getAccommodationById(long id) {
 		
 		return findAccommodation(id);
 	}
@@ -73,7 +73,7 @@ public class AccommodationDaoStub implements AccommodationDao{
 			double lat = 40.857362 + Math.random() * (40.857362 - 40.870000);
             double longitude = 14.261627 + Math.random() * (14.261627 - 14.300000);
 			accommodationList.add(new Accommodation.Builder()
-					.setId(i)
+					//.setId(i)
                     .setName("Da Peppino"+i)
                     .setDescription("Descrizione ristorante da Peppino "+i)
                     .setCategory("RESTAURANT")
@@ -117,7 +117,7 @@ public class AccommodationDaoStub implements AccommodationDao{
 
 
 		
-	private Accommodation findAccommodation(int id) {
+	private Accommodation findAccommodation(long id) {
 		
 		for(int i=0;i<accommodationList.size();i++) {
 			if(accommodationList.get(i).getId()==id) {

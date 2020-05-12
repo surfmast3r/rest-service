@@ -23,15 +23,14 @@ public class AccommodationDaoSql implements AccommodationDao {
 
 	@Override
 	public List getAccommodationByCity(String city) {
-		// TODO Auto-generated method stub
-		return null;
+		return repository.findAllAccommodationByCity(city);
 	}
 
 
 	@Override
-	public Accommodation getAccommodationById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Accommodation getAccommodationById(long id) {
+		return repository.findAccommodationById(id);
+		
 	}
 
 
