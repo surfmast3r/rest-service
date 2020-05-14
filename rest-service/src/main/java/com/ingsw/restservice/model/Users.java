@@ -16,6 +16,10 @@ public class Users {
 	private String nome;
 	private String cognome;
 	private String email;
+	private String pwd;
+	private String nickname;
+	private Boolean showNickname;
+	
 	public int getId() {
 		return id;
 	}
@@ -46,10 +50,6 @@ public class Users {
 	public void setShowNickname(Boolean showNickname) {
 		this.showNickname = showNickname;
 	}
-	private String pwd;
-	private String nickname;
-	private Boolean showNickname;
-	
 	
 	public String getPwd() {
 		return pwd;
