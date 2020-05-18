@@ -68,7 +68,7 @@ public class AccommodationController {
 	
 		acDao.createAccommodation(accommodation);
 	
-		return  new ResponseEntity<>("Accommodation is created successfully", HttpStatus.CREATED);
+		return  new ResponseEntity<>(accommodation, HttpStatus.CREATED) ;
 	}
 	
 	@RequestMapping(value = "/accommodation/edit/{id}", method = RequestMethod.PUT)
