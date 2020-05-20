@@ -53,6 +53,28 @@ public class Review {
 		return status;
 	}
     
+    public void setId(int id) {
+		this.id = id;
+	}
+	public void setAccommodationName(String accommodationName) {
+		this.accommodationName = accommodationName;
+	}
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+	public void setReviewText(String reviewText) {
+		this.reviewText = reviewText;
+	}
+	public void setRating(float rating) {
+		this.rating = rating;
+	}
+	public void setData(String data) {
+		this.data = data;
+	}
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+    
     public static class Builder {
 
     	private int id;

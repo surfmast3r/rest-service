@@ -72,7 +72,7 @@ public class AccommodationController {
 	}
 	
 	@RequestMapping(value = "/accommodation/edit/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Object> updateProduct(@PathVariable("id") int id, @RequestBody Accommodation accommodation) { 
+	public ResponseEntity<Object> updateAccommodation(@PathVariable("id") int id, @RequestBody Accommodation accommodation) { 
       
 		boolean response=acDao.editAccommodation(id,accommodation);
 		
@@ -80,7 +80,7 @@ public class AccommodationController {
 			return new ResponseEntity<>("Accommodation is updated", HttpStatus.OK);
 		}
 		else
-			return new ResponseEntity<>("Accommodation not updated", HttpStatus.OK);
+			return new ResponseEntity<>("Accommodation not updated", HttpStatus.NOT_FOUND);
 		
    }
 	
@@ -90,12 +90,8 @@ public class AccommodationController {
     	  return new ResponseEntity<>("Accommodation is deleted", HttpStatus.OK);
       }
       else
-    	  return new ResponseEntity<>("Accommodation not found", HttpStatus.OK);
+    	  return new ResponseEntity<>("Accommodation not found", HttpStatus.NOT_FOUND);
    }
 	
 	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public ResponseEntity login() {
-		return new ResponseEntity<>("Accommodation is deleted", HttpStatus.OK);
-	}
 }
