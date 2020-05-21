@@ -1,5 +1,6 @@
 package com.ingsw.restservice.model;
 
+import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,6 +62,11 @@ public class AccommodationDaoStub implements AccommodationDao{
 	@Override
 	public void deleteAccommodation(int accommodationId) {
 
+	}
+
+	@Override
+	public List<Accommodation> findAccommodationOrderByRating(Pageable limit) {
+		return null;
 	}
 
 	/*
