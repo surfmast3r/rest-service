@@ -2,6 +2,8 @@ package com.ingsw.restservice.repository;
 
 import java.util.List;
 
+
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -21,6 +23,7 @@ public interface AccommodationRepository extends CrudRepository<Accommodation, L
 
 	//=====================================================================
 	// QUERY DA CONTROLLARE!!!!
+
 		@Query("SELECT accommodation FROM Accommodation accommodation WHERE accommodation.name LIKE CONCAT('%',:name,'%')")
 		List<Accommodation> findAccommodationByName(@Param("name") String name);
 
@@ -67,5 +70,9 @@ public interface AccommodationRepository extends CrudRepository<Accommodation, L
 							 @Param("images") String images);
 
 
+		@Query("SELECT a" +
+				"FROM Accommodation a" +
+				"ORDER BY a.Rating DESC")
+		List<Accommodation> findAccommodationOrderByRating(Pageable limit);
 
 }

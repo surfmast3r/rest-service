@@ -1,5 +1,6 @@
 package com.ingsw.restservice.model;
 
+import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +66,12 @@ public class AccommodationDaoStub implements AccommodationDao{
 		return false;
 
 	}
+
+	@Override
+	public List<Accommodation> getAccommodationOrderByRating(int limit) {
+		return null;
+	}
+
 
 	/*
 	@Override

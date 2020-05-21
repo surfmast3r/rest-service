@@ -11,4 +11,5 @@ public interface AccommodationDao {
 	public Accommodation createAccommodation(Accommodation accommodation);
 	public boolean editAccommodation(Accommodation accommodation);
 	public boolean deleteAccommodation(int accommodationId);
+	List<Accommodation> getAccommodationOrderByRating(int limit);
 }
