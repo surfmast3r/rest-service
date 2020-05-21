@@ -1,6 +1,5 @@
 package com.ingsw.restservice.model;
 
-import java.awt.print.Pageable;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +60,7 @@ public class AccommodationDaoSql implements AccommodationDao {
 													accommodation.getCity(),accommodation.getAddress(),
 													accommodation.getCategory(),
 													accommodation.getSubCategory(),accommodation.getImages());
+			System.out.print("response: "+response);
 			if(response>0) {
 				return true;
 			}
@@ -71,7 +71,7 @@ public class AccommodationDaoSql implements AccommodationDao {
 
 
 	@Override
-	public boolean deleteAccommodation(int accommodationId) {
+	public boolean deleteAccommodation(long accommodationId) {
 		int response=repository.deleteAccommodationById(accommodationId);
 		if(response>0) {
 			return true;
@@ -81,8 +81,8 @@ public class AccommodationDaoSql implements AccommodationDao {
 	}
 
 	@Override
-	public List<Accommodation> getAccommodationOrderByRating(int limit) {
-		return repository.findAccommodationOrderByRating(PageRequest.of(0,limit));
+	public List<Accommodation> getAccommodationOrderByRating(int page) {
+		return repository.findAccommodationOrderByRating(PageRequest.of(page,50));
 	}
 
 

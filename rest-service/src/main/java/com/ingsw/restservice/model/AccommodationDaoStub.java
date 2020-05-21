@@ -62,7 +62,7 @@ public class AccommodationDaoStub implements AccommodationDao{
 	}
 
 	@Override
-	public boolean deleteAccommodation(int accommodationId) {
+	public boolean deleteAccommodation(long accommodationId) {
 		return false;
 
 	}

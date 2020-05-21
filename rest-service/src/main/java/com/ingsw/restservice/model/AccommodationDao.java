@@ -10,6 +10,6 @@ public interface AccommodationDao {
 	public List<Accommodation> getAccommodationByName(String name);
 	public Accommodation createAccommodation(Accommodation accommodation);
 	public boolean editAccommodation(Accommodation accommodation);
-	public boolean deleteAccommodation(int accommodationId);
+	public boolean deleteAccommodation(long accommodationId);
 	List<Accommodation> getAccommodationOrderByRating(int limit);
 }

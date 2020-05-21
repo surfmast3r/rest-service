@@ -38,6 +38,13 @@ public class AccommodationController {
 		
    }
 	
+	@RequestMapping(method = RequestMethod.GET, value="/accommodation",params = "page")
+	@ResponseBody	
+	public List<Accommodation> getAccommodationsByRating(@RequestParam(defaultValue = "0") int page) {
+	
+		return acDao.getAccommodationOrderByRating(page);
+		
+	}
 	
 	@RequestMapping(method = RequestMethod.GET, value="/accommodation",params = "city")
 	@ResponseBody	
@@ -71,8 +78,8 @@ public class AccommodationController {
 		return  new ResponseEntity<>(accommodation, HttpStatus.CREATED) ;
 	}
 	
-	@RequestMapping(value = "/accommodation/edit/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Object> updateAccommodation(@PathVariable("id") int id, @RequestBody Accommodation accommodation) { 
+	@RequestMapping(value = "/accommodation/edit/", method = RequestMethod.PUT)
+	public ResponseEntity<Object> updateAccommodation(@RequestBody Accommodation accommodation) { 
       
 		boolean response=acDao.editAccommodation(accommodation);
 		
@@ -85,7 +92,7 @@ public class AccommodationController {
    }
 	
 	@RequestMapping(value = "/accommodation/delete/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Object> delete(@PathVariable("id") int id) { 
+	public ResponseEntity<Object> delete(@PathVariable("id") long id) { 
       if(acDao.deleteAccommodation(id)) {
     	  return new ResponseEntity<>("Accommodation is deleted", HttpStatus.OK);
       }
