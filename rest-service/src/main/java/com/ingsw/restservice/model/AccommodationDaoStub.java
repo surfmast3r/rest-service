@@ -43,11 +43,27 @@ public class AccommodationDaoStub implements AccommodationDao{
 	}
 
 	@Override
+	public List<Accommodation> getAccommodationByName(String name) {
+		return null;
+	}
+
+	@Override
 	public void createAccommodation(Accommodation accommodation) {
 		accommodationList.add(accommodation);
 		
 	}
-	
+
+	@Override
+	public void editAccommodation(Accommodation accommodation) {
+
+	}
+
+	@Override
+	public void deleteAccommodation(int accommodationId) {
+
+	}
+
+	/*
 	@Override
 	public boolean deleteAccommodation(int accommodationId) {
 		return removeAccommodation(accommodationId);
@@ -65,7 +81,7 @@ public class AccommodationDaoStub implements AccommodationDao{
 		
 		
 	}
-	
+	*/
 	private List<Accommodation> createAccommodationList(){
 		List<Accommodation> accommodationList = new ArrayList<Accommodation>();
 		for(int i=0;i<10;i++)
@@ -127,7 +143,7 @@ public class AccommodationDaoStub implements AccommodationDao{
 		
 		return null;
 	}
-	
+	/*
 	private boolean removeAccommodation(int id) {
 		
 		for(int i=0;i<accommodationList.size();i++) {
@@ -139,6 +155,6 @@ public class AccommodationDaoStub implements AccommodationDao{
 		
 		return false;
 	}
-
+*/
 
 }
