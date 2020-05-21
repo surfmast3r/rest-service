@@ -65,9 +65,10 @@ public class AccommodationDaoStub implements AccommodationDao{
 	}
 
 	@Override
-	public List<Accommodation> findAccommodationOrderByRating(Pageable limit) {
+	public List<Accommodation> getAccommodationOrderByRating(int limit) {
 		return null;
 	}
+
 
 	/*
 	@Override
