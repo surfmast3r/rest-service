@@ -37,33 +37,45 @@ public class AccommodationDaoSql implements AccommodationDao {
 
 
 	@Override
-	public void createAccommodation(Accommodation accommodation) {
+	public Accommodation createAccommodation(Accommodation accommodation) {
+		/*
 		repository.createAccommodation( accommodation.getId(),accommodation.getDescription(),
 										accommodation.getName(),
 										accommodation.getLogoUrl(),accommodation.getLatitude(),
 										accommodation.getLongitude(),
 										accommodation.getCity(),accommodation.getAddress(),
 										accommodation.getRating(),accommodation.getCategory(),
-										accommodation.getSubCategory(),accommodation.getImages());
+										accommodation.getSubCategory(),accommodation.getImages());*/
+		 return repository.save(accommodation);
 		}
 
 
 	@Override
-	public void editAccommodation(Accommodation accommodation) {
-			repository.editAccommodation( accommodation.getId(),accommodation.getDescription(),
+	public boolean editAccommodation(Accommodation accommodation) {
+			int response=repository.editAccommodation( accommodation.getId(),accommodation.getDescription(),
 													accommodation.getName(),
 													accommodation.getLogoUrl(),accommodation.getLatitude(),
 													accommodation.getLongitude(),
 													accommodation.getCity(),accommodation.getAddress(),
 													accommodation.getCategory(),
 													accommodation.getSubCategory(),accommodation.getImages());
+			if(response>0) {
+				return true;
+			}
+			return false;
+			
 
 	}
 
 
 	@Override
-	public void deleteAccommodation(int accommodationId) {
-		repository.deleteAccommodationById(accommodationId);
+	public boolean deleteAccommodation(int accommodationId) {
+		int response=repository.deleteAccommodationById(accommodationId);
+		if(response>0) {
+			return true;
+		}
+		return false;
+		
 	}
 
 

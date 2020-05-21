@@ -74,7 +74,7 @@ public class AccommodationController {
 	@RequestMapping(value = "/accommodation/edit/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Object> updateAccommodation(@PathVariable("id") int id, @RequestBody Accommodation accommodation) { 
       
-		boolean response=acDao.editAccommodation(id,accommodation);
+		boolean response=acDao.editAccommodation(accommodation);
 		
 		if(response) {
 			return new ResponseEntity<>("Accommodation is updated", HttpStatus.OK);

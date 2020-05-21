@@ -8,7 +8,7 @@ public interface AccommodationDao {
 	public List<Accommodation> getAccommodationByCity(String city);
 	public Accommodation getAccommodationById(long id);
 	public List<Accommodation> getAccommodationByName(String name);
-	public void createAccommodation(Accommodation accommodation);
-	public void editAccommodation(Accommodation accommodation);
-	public void deleteAccommodation(int accommodationId);
+	public Accommodation createAccommodation(Accommodation accommodation);
+	public boolean editAccommodation(Accommodation accommodation);
+	public boolean deleteAccommodation(int accommodationId);
 }
