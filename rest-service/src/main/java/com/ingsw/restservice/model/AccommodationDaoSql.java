@@ -1,8 +1,10 @@
 package com.ingsw.restservice.model;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.ingsw.restservice.repository.AccommodationRepository;
@@ -64,6 +66,11 @@ public class AccommodationDaoSql implements AccommodationDao {
 	@Override
 	public void deleteAccommodation(int accommodationId) {
 		repository.deleteAccommodationById(accommodationId);
+	}
+
+	@Override
+	public List<Accommodation> getAccommodationOrderByRating(int limit) {
+		return repository.findAccommodationOrderByRating(PageRequest.of(0,limit));
 	}
 
 

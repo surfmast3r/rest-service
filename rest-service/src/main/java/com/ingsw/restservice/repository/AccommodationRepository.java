@@ -23,6 +23,7 @@ public interface AccommodationRepository extends CrudRepository<Accommodation, L
 
 	//=====================================================================
 	// QUERY DA CONTROLLARE!!!!
+
 		@Query("SELECT accommodation FROM Accommodation accommodation WHERE accommodation.name LIKE CONCAT('%',:name,'%')")
 		List<Accommodation> findAccommodationByName(@Param("name") String name);
 
@@ -67,6 +68,7 @@ public interface AccommodationRepository extends CrudRepository<Accommodation, L
 							 @Param("category") String category,
 							 @Param("subCategory") String subCategory,
 							 @Param("images") String images);
+
 
 		@Query("SELECT a" +
 				"FROM Accommodation a" +

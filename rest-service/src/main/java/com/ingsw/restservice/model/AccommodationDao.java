@@ -12,9 +12,5 @@ public interface AccommodationDao {
 	public void createAccommodation(Accommodation accommodation);
 	public void editAccommodation(Accommodation accommodation);
 	public void deleteAccommodation(int accommodationId);
-
-	// Si richiama usando (new PageRequest(0,x)) per recuperare solo i primi x record (SPERO) :
-	public List<Accommodation> findAccommodationOrderByRating(Pageable limit);
-
-
+	List<Accommodation> getAccommodationOrderByRating(int limit);
 }
