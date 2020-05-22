@@ -72,6 +72,31 @@ public class AccommodationDaoStub implements AccommodationDao{
 		return null;
 	}
 
+	@Override
+	public List<Accommodation> getAccommodationByCategory(String category) {
+		return null;
+	}
+
+	@Override
+	public List<Accommodation> getAccommodationBySubCategory(String subcategory) {
+		return null;
+	}
+
+	@Override
+	public List<Accommodation> getAccommodationByGeneric(String generic) {
+		return null;
+	}
+
+	@Override
+	public List<Accommodation> getAccommodationByGenericAndCategory(String generic, String category) {
+		return null;
+	}
+
+	@Override
+	public List<Accommodation> getAccommodationByGenericAndSubCategory(String generic, String subcategory) {
+		return null;
+	}
+
 
 	/*
 	@Override

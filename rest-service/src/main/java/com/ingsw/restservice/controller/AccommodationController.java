@@ -45,7 +45,38 @@ public class AccommodationController {
 		return acDao.getAccommodationOrderByRating(page);
 		
 	}
-	
+
+	@RequestMapping(method = RequestMethod.GET, value="/accommodation",params = "category")
+	@ResponseBody
+	public List<Accommodation> getAccommodationByCategory(String category) {
+		return acDao.getAccommodationByCategory(category);
+	}
+
+
+	@RequestMapping(method = RequestMethod.GET, value="/accommodation",params = "subcategory")
+	@ResponseBody
+	public List<Accommodation> getAccommodationBySubCategory(@RequestParam String subcategory) {
+		return acDao.getAccommodationBySubCategory(subcategory);
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value="/accommodation",params = "generic")
+	@ResponseBody
+	public List<Accommodation> getAccommodationByGeneric(@RequestParam String generic) {
+		return acDao.getAccommodationByGeneric(generic);
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value="/accommodation/cat/{generic}/{category}")
+	@ResponseBody
+	public List<Accommodation> getAccommodationByGenericAndCategory(@PathVariable String generic,@PathVariable String category) {
+		return acDao.getAccommodationByGenericAndCategory(generic,category);
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value="/accommodation/sub/{generic}/{subcategory}")
+	@ResponseBody
+	public List<Accommodation> getAccommodationByGenericAndSubCategory(@PathVariable String generic,@PathVariable String subcategory) {
+		return acDao.getAccommodationByGenericAndSubCategory(generic,subcategory);
+	}
+
 	@RequestMapping(method = RequestMethod.GET, value="/accommodation",params = "city")
 	@ResponseBody	
 	public List<Accommodation> getAccommodations(@RequestParam(defaultValue = "all") String city) {

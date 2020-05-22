@@ -82,7 +82,32 @@ public class AccommodationDaoSql implements AccommodationDao {
 
 	@Override
 	public List<Accommodation> getAccommodationOrderByRating(int page) {
-		return repository.findAccommodationOrderByRating(PageRequest.of(page,50));
+		return repository.findAccommodationOrderByRating(PageRequest.of(0,page));
+	}
+
+	@Override
+	public List<Accommodation> getAccommodationByCategory(String category) {
+		return repository.findAccommodationByCategory(category);
+	}
+
+	@Override
+	public List<Accommodation> getAccommodationBySubCategory(String subcategory) {
+		return repository.findAccommodationBySubCategory(subcategory);
+	}
+
+	@Override
+	public List<Accommodation> getAccommodationByGeneric(String generic) {
+		return repository.findAccommodationByGeneric(generic);
+	}
+
+	@Override
+	public List<Accommodation> getAccommodationByGenericAndCategory(String generic, String category) {
+		return repository.findAccommodationByGenericAndCategory(generic,category);
+	}
+
+	@Override
+	public List<Accommodation> getAccommodationByGenericAndSubCategory(String generic, String subcategory) {
+		return repository.findAccommodationByGenericAndSubCategory(generic,subcategory);
 	}
 
 
