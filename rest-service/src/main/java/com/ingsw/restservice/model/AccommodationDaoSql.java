@@ -21,8 +21,8 @@ public class AccommodationDaoSql implements AccommodationDao {
 
 
 	@Override
-	public List<Accommodation> getAccommodationByCity(String city) {
-		return repository.findAllAccommodationByCity(city);
+	public List<Accommodation> getAccommodationByCity(String city, int page) {
+		return repository.findAllAccommodationByCity(city,PageRequest.of(page,50));
 	}
 
 
@@ -32,8 +32,8 @@ public class AccommodationDaoSql implements AccommodationDao {
 	}
 
 	@Override
-	public List<Accommodation> getAccommodationByName(String name) {
-		return repository.findAccommodationByName(name);
+	public List<Accommodation> getAccommodationByName(String name, int page) {
+		return repository.findAccommodationByName(name,PageRequest.of(page,50));
 	}
 
 
@@ -82,32 +82,47 @@ public class AccommodationDaoSql implements AccommodationDao {
 
 	@Override
 	public List<Accommodation> getAccommodationOrderByRating(int page) {
-		return repository.findAccommodationOrderByRating(PageRequest.of(0,page));
+		return repository.findAccommodationOrderByRating(PageRequest.of(page,50));
 	}
 
 	@Override
-	public List<Accommodation> getAccommodationByCategory(String category) {
-		return repository.findAccommodationByCategory(category);
+	public List<Accommodation> getAccommodations(String query, String category, String subCategory, int page) {
+		if(!subCategory.equals("")){
+			if(query.length()>3)
+				return	repository.findAccommodationByGenericAndSubCategory(query,subCategory,PageRequest.of(page,50));
+			else
+				return	repository.findAccommodationBySubCategory(subCategory,PageRequest.of(page,50));
+		}
+		else if(!category.equals("")){
+			if(query.length()>3)
+				return	repository.findAccommodationByGenericAndCategory(query,category,PageRequest.of(page,50));
+			else
+				return repository.findAccommodationByCategory(category,PageRequest.of(page,50));
+
+		}
+
+		return repository.findAccommodationByGeneric(query,PageRequest.of(page,50));
+
 	}
 
 	@Override
-	public List<Accommodation> getAccommodationBySubCategory(String subcategory) {
-		return repository.findAccommodationBySubCategory(subcategory);
+	public List<Accommodation> getAccommodationBySubCategory(String subcategory, int page) {
+		return repository.findAccommodationBySubCategory(subcategory,PageRequest.of(page,50));
 	}
 
 	@Override
-	public List<Accommodation> getAccommodationByGeneric(String generic) {
-		return repository.findAccommodationByGeneric(generic);
+	public List<Accommodation> getAccommodationByGeneric(String generic, int page) {
+		return repository.findAccommodationByGeneric(generic,PageRequest.of(page,50));
 	}
 
 	@Override
-	public List<Accommodation> getAccommodationByGenericAndCategory(String generic, String category) {
-		return repository.findAccommodationByGenericAndCategory(generic,category);
+	public List<Accommodation> getAccommodationByGenericAndCategory(String generic, String category, int page) {
+		return repository.findAccommodationByGenericAndCategory(generic,category,PageRequest.of(page,50));
 	}
 
 	@Override
-	public List<Accommodation> getAccommodationByGenericAndSubCategory(String generic, String subcategory) {
-		return repository.findAccommodationByGenericAndSubCategory(generic,subcategory);
+	public List<Accommodation> getAccommodationByGenericAndSubCategory(String generic, String subcategory,int page) {
+		return repository.findAccommodationByGenericAndSubCategory(generic,subcategory,PageRequest.of(page,50));
 	}
 
 

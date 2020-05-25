@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ingsw.restservice.config.JwtTokenUtil;
-import com.ingsw.restservice.model.JwtRequest;
-import com.ingsw.restservice.model.JwtResponse;
+import com.ingsw.restservice.model.DTO.JwtRequest;
+import com.ingsw.restservice.model.DTO.JwtResponse;
 import com.ingsw.restservice.model.Users;
 import com.ingsw.restservice.services.JwtUserDetailsService;
 

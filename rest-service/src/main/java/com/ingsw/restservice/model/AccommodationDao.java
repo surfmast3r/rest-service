@@ -5,16 +5,16 @@ import java.util.List;
 public interface AccommodationDao {
 
 	List<Accommodation> findAll();
-	List<Accommodation> getAccommodationByCity(String city);
+	List<Accommodation> getAccommodationByCity(String city,int page);
 	Accommodation getAccommodationById(long id);
-	List<Accommodation> getAccommodationByName(String name);
+	List<Accommodation> getAccommodationByName(String name,int page);
 	Accommodation createAccommodation(Accommodation accommodation);
 	boolean editAccommodation(Accommodation accommodation);
 	boolean deleteAccommodation(long accommodationId);
 	List<Accommodation> getAccommodationOrderByRating(int limit);
-	List<Accommodation> getAccommodationByCategory(String category);
-	List<Accommodation> getAccommodationBySubCategory(String subcategory);
-	List<Accommodation> getAccommodationByGeneric(String generic);
-	List<Accommodation> getAccommodationByGenericAndCategory(String generic,String category);
-	List<Accommodation> getAccommodationByGenericAndSubCategory(String generic,String subcategory);
+	List<Accommodation> getAccommodations(String query,String category,String subCategory,int page);
+	List<Accommodation> getAccommodationBySubCategory(String subcategory,int page);
+	List<Accommodation> getAccommodationByGeneric(String generic,int page);
+	List<Accommodation> getAccommodationByGenericAndCategory(String generic,String category,int page);
+	List<Accommodation> getAccommodationByGenericAndSubCategory(String generic,String subcategory,int page);
 }

@@ -1,4 +1,4 @@
-package com.ingsw.restservice.model;
+package com.ingsw.restservice.model.DTO;
 
 import java.io.Serializable;
 public class JwtRequest implements Serializable {

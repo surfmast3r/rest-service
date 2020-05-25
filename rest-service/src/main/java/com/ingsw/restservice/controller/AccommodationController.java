@@ -2,18 +2,12 @@ package com.ingsw.restservice.controller;
 
 import java.util.List;
 
+import com.ingsw.restservice.model.DTO.EmptyJsonResponse;
+import com.ingsw.restservice.model.DTO.JsonResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,46 +40,24 @@ public class AccommodationController {
 		
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value="/accommodation",params = "category")
+
+	@RequestMapping(method = RequestMethod.GET, value="/accommodation",params = {"subcategory","page"})
 	@ResponseBody
-	public List<Accommodation> getAccommodationByCategory(String category) {
-		return acDao.getAccommodationByCategory(category);
+	public List<Accommodation> getAccommodationBySubCategory(@RequestParam String subcategory, int page) {
+		return acDao.getAccommodationBySubCategory(subcategory,page);
 	}
 
 
-	@RequestMapping(method = RequestMethod.GET, value="/accommodation",params = "subcategory")
-	@ResponseBody
-	public List<Accommodation> getAccommodationBySubCategory(@RequestParam String subcategory) {
-		return acDao.getAccommodationBySubCategory(subcategory);
-	}
-
-	@RequestMapping(method = RequestMethod.GET, value="/accommodation",params = "generic")
-	@ResponseBody
-	public List<Accommodation> getAccommodationByGeneric(@RequestParam String generic) {
-		return acDao.getAccommodationByGeneric(generic);
-	}
-
-	@RequestMapping(method = RequestMethod.GET, value="/accommodation/cat/{generic}/{category}")
-	@ResponseBody
-	public List<Accommodation> getAccommodationByGenericAndCategory(@PathVariable String generic,@PathVariable String category) {
-		return acDao.getAccommodationByGenericAndCategory(generic,category);
-	}
-
-	@RequestMapping(method = RequestMethod.GET, value="/accommodation/sub/{generic}/{subcategory}")
-	@ResponseBody
-	public List<Accommodation> getAccommodationByGenericAndSubCategory(@PathVariable String generic,@PathVariable String subcategory) {
-		return acDao.getAccommodationByGenericAndSubCategory(generic,subcategory);
-	}
-
-	@RequestMapping(method = RequestMethod.GET, value="/accommodation",params = "city")
+	@RequestMapping(method = RequestMethod.GET, value="/accommodation",params = {"query","category","subCategory","page"})
 	@ResponseBody	
-	public List<Accommodation> getAccommodations(@RequestParam(defaultValue = "all") String city) {
-	
-		//acDao = new AccommodationDaoSql();
-		if (city.equals("all"))
-			return acDao.findAll();
+	public ResponseEntity<Object> getAccommodations(@RequestParam(defaultValue = "") String query,String category,String subCategory,int page) {
+
+		List<Accommodation>accommodationList=acDao.getAccommodations(query,category,subCategory,page);
+		if(accommodationList!=null)
+			return new ResponseEntity<>(accommodationList, HttpStatus.OK);
 		else
-			return acDao.getAccommodationByCity(city);
+			return new ResponseEntity<>(new JsonResponse(false,"Strutture non trovate"), HttpStatus.BAD_REQUEST);
+
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value="/accommodation",params ="accommodationId")
@@ -115,10 +87,10 @@ public class AccommodationController {
 		boolean response=acDao.editAccommodation(accommodation);
 		
 		if(response) {
-			return new ResponseEntity<>("Accommodation is updated", HttpStatus.OK);
+			return new ResponseEntity<>(new JsonResponse(true,"Struttura modificata"), HttpStatus.OK);
 		}
 		else
-			return new ResponseEntity<>("Accommodation not updated", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(new JsonResponse(true,"Struttura non trovata"), HttpStatus.NOT_FOUND);
 		
    }
 	
@@ -131,5 +103,5 @@ public class AccommodationController {
     	  return new ResponseEntity<>("Accommodation not found", HttpStatus.NOT_FOUND);
    }
 	
-	
+
 }

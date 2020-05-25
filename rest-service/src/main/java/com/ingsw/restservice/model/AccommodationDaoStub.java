@@ -25,6 +25,11 @@ public class AccommodationDaoStub implements AccommodationDao{
 	}
 
 	@Override
+	public List<Accommodation> getAccommodationByCity(String city, int page) {
+		return null;
+	}
+
+
 	public List<Accommodation> getAccommodationByCity(String city) {
 		
 		ArrayList<Accommodation> accommodationByCity= new ArrayList<Accommodation>();
@@ -44,6 +49,11 @@ public class AccommodationDaoStub implements AccommodationDao{
 	}
 
 	@Override
+	public List<Accommodation> getAccommodationByName(String name, int page) {
+		return null;
+	}
+
+
 	public List<Accommodation> getAccommodationByName(String name) {
 		return null;
 	}
@@ -73,27 +83,27 @@ public class AccommodationDaoStub implements AccommodationDao{
 	}
 
 	@Override
-	public List<Accommodation> getAccommodationByCategory(String category) {
+	public List<Accommodation> getAccommodations(String query, String category, String subCategory,int page) {
 		return null;
 	}
 
 	@Override
-	public List<Accommodation> getAccommodationBySubCategory(String subcategory) {
+	public List<Accommodation> getAccommodationBySubCategory(String subcategory, int page) {
 		return null;
 	}
 
 	@Override
-	public List<Accommodation> getAccommodationByGeneric(String generic) {
+	public List<Accommodation> getAccommodationByGeneric(String generic, int page) {
 		return null;
 	}
 
 	@Override
-	public List<Accommodation> getAccommodationByGenericAndCategory(String generic, String category) {
+	public List<Accommodation> getAccommodationByGenericAndCategory(String generic, String category, int page) {
 		return null;
 	}
 
 	@Override
-	public List<Accommodation> getAccommodationByGenericAndSubCategory(String generic, String subcategory) {
+	public List<Accommodation> getAccommodationByGenericAndSubCategory(String generic, String subcategory, int page) {
 		return null;
 	}
 
