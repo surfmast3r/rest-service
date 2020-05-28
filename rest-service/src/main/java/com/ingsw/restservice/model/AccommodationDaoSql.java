@@ -2,7 +2,9 @@ package com.ingsw.restservice.model;
 
 import java.util.List;
 
+import com.ingsw.restservice.model.DTO.JsonPageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -19,34 +21,20 @@ public class AccommodationDaoSql implements AccommodationDao {
 		return (List<Accommodation>) repository.findAll();
 	}
 
-
 	@Override
-	public List<Accommodation> getAccommodationByCity(String city, int page) {
-		return repository.findAllAccommodationByCity(city,PageRequest.of(page,50));
+	public JsonPageResponse getAccommodationByCityPageable(String city, int pageNumber) {
+		Page<Accommodation> page=repository.findAllAccommodationByCityPageable(city,PageRequest.of(pageNumber,50));
+		return createJsonPageResponse(page );
 	}
-
 
 	@Override
 	public Accommodation getAccommodationById(long id) {
 		return repository.findAccommodationById(id);
 	}
 
-	@Override
-	public List<Accommodation> getAccommodationByName(String name, int page) {
-		return repository.findAccommodationByName(name,PageRequest.of(page,50));
-	}
-
 
 	@Override
 	public Accommodation createAccommodation(Accommodation accommodation) {
-		/*
-		repository.createAccommodation( accommodation.getId(),accommodation.getDescription(),
-										accommodation.getName(),
-										accommodation.getLogoUrl(),accommodation.getLatitude(),
-										accommodation.getLongitude(),
-										accommodation.getCity(),accommodation.getAddress(),
-										accommodation.getRating(),accommodation.getCategory(),
-										accommodation.getSubCategory(),accommodation.getImages());*/
 		 return repository.save(accommodation);
 		}
 
@@ -81,48 +69,46 @@ public class AccommodationDaoSql implements AccommodationDao {
 	}
 
 	@Override
-	public List<Accommodation> getAccommodationOrderByRating(int page) {
-		return repository.findAccommodationOrderByRating(PageRequest.of(page,50));
+	public JsonPageResponse<Accommodation> getAccommodationOrderByRating(int pageNumber) {
+		Page<Accommodation> page = repository.findAccommodationOrderByRating(PageRequest.of(pageNumber,50));
+
+		return createJsonPageResponse(page );
 	}
 
 	@Override
-	public List<Accommodation> getAccommodations(String query, String category, String subCategory, int page) {
+	public JsonPageResponse<Accommodation> getAccommodations(String query, String category, String subCategory, int pageNumber) {
+		Page<Accommodation> page=null;
 		if(!subCategory.equals("")){
 			if(query.length()>3)
-				return	repository.findAccommodationByGenericAndSubCategory(query,subCategory,PageRequest.of(page,50));
+				page=repository.findAccommodationByGenericAndSubCategory(query,subCategory,PageRequest.of(pageNumber,2));
 			else
-				return	repository.findAccommodationBySubCategory(subCategory,PageRequest.of(page,50));
+				page=repository.findAccommodationBySubCategory(subCategory,PageRequest.of(pageNumber,2));
 		}
 		else if(!category.equals("")){
 			if(query.length()>3)
-				return	repository.findAccommodationByGenericAndCategory(query,category,PageRequest.of(page,50));
+				page=repository.findAccommodationByGenericAndCategory(query,category,PageRequest.of(pageNumber,2));
 			else
-				return repository.findAccommodationByCategory(category,PageRequest.of(page,50));
+				page=repository.findAccommodationByCategory(category,PageRequest.of(pageNumber,2));
 
 		}
+		page= repository.findAccommodationByGeneric(query,PageRequest.of(pageNumber,2));
 
-		return repository.findAccommodationByGeneric(query,PageRequest.of(page,50));
+		return createJsonPageResponse(page );
+
+
 
 	}
 
-	@Override
-	public List<Accommodation> getAccommodationBySubCategory(String subcategory, int page) {
-		return repository.findAccommodationBySubCategory(subcategory,PageRequest.of(page,50));
-	}
+	private JsonPageResponse<Accommodation> createJsonPageResponse(Page<Accommodation> page){
+		JsonPageResponse<Accommodation> jsonPageResponse= new JsonPageResponse<>();
+		jsonPageResponse.setTotalPages(page.getTotalPages());
+		jsonPageResponse.setContent(page.getContent());
+		jsonPageResponse.setPage(page.getNumber());
+		jsonPageResponse.setOffset(page.getPageable().getOffset());
+		jsonPageResponse.setPageSize(page.getSize());
+		jsonPageResponse.setTotalElements(page.getTotalElements());
+		return jsonPageResponse;
 
-	@Override
-	public List<Accommodation> getAccommodationByGeneric(String generic, int page) {
-		return repository.findAccommodationByGeneric(generic,PageRequest.of(page,50));
-	}
-
-	@Override
-	public List<Accommodation> getAccommodationByGenericAndCategory(String generic, String category, int page) {
-		return repository.findAccommodationByGenericAndCategory(generic,category,PageRequest.of(page,50));
-	}
-
-	@Override
-	public List<Accommodation> getAccommodationByGenericAndSubCategory(String generic, String subcategory,int page) {
-		return repository.findAccommodationByGenericAndSubCategory(generic,subcategory,PageRequest.of(page,50));
 	}
 
 

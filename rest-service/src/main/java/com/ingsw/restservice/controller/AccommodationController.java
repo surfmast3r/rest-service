@@ -1,8 +1,7 @@
 package com.ingsw.restservice.controller;
 
-import java.util.List;
-
 import com.ingsw.restservice.model.DTO.EmptyJsonResponse;
+import com.ingsw.restservice.model.DTO.JsonPageResponse;
 import com.ingsw.restservice.model.DTO.JsonResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -31,28 +30,13 @@ public class AccommodationController {
 		return new ResponseEntity<>("CoVi19 up and running!!!", HttpStatus.OK);
 		
    }
-	
-	@RequestMapping(method = RequestMethod.GET, value="/accommodation",params = "page")
-	@ResponseBody	
-	public List<Accommodation> getAccommodationsByRating(@RequestParam(defaultValue = "0") int page) {
-	
-		return acDao.getAccommodationOrderByRating(page);
-		
-	}
-
-
-	@RequestMapping(method = RequestMethod.GET, value="/accommodation",params = {"subcategory","page"})
-	@ResponseBody
-	public List<Accommodation> getAccommodationBySubCategory(@RequestParam String subcategory, int page) {
-		return acDao.getAccommodationBySubCategory(subcategory,page);
-	}
 
 
 	@RequestMapping(method = RequestMethod.GET, value="/accommodation",params = {"query","category","subCategory","page"})
 	@ResponseBody	
 	public ResponseEntity<Object> getAccommodations(@RequestParam(defaultValue = "") String query,String category,String subCategory,int page) {
 
-		List<Accommodation>accommodationList=acDao.getAccommodations(query,category,subCategory,page);
+		JsonPageResponse<Accommodation>accommodationList=acDao.getAccommodations(query,category,subCategory,page);
 		if(accommodationList!=null)
 			return new ResponseEntity<>(accommodationList, HttpStatus.OK);
 		else

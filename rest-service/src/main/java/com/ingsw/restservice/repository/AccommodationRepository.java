@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -51,30 +52,29 @@ public interface AccommodationRepository extends CrudRepository<Accommodation, L
 	@Query("SELECT a " +
 			"FROM Accommodation a " +
 			"ORDER BY a.rating DESC")
-	List<Accommodation> findAccommodationOrderByRating(Pageable limit);
+	Page<Accommodation> findAccommodationOrderByRating(Pageable limit);
 
 
 	@Query(" SELECT a" +
 			" FROM Accommodation a" +
 			" WHERE a.category=:category" +
 			" ORDER BY a.id DESC")
-	List<Accommodation>findAccommodationByCategory(@Param("category") String category,Pageable limit);
+	Page<Accommodation>findAccommodationByCategory(@Param("category") String category,Pageable limit);
 
 	@Query(" SELECT a" +
 			" FROM Accommodation a" +
 			" WHERE a.subCategory=:subcategory" +
 			" ORDER BY a.id DESC")
-	List<Accommodation>findAccommodationBySubCategory(@Param("subcategory") String subcategory,Pageable limit);
+	Page<Accommodation>findAccommodationBySubCategory(@Param("subcategory") String subcategory,Pageable limit);
 
-
-	@Query("SELECT accommodation FROM Accommodation accommodation WHERE accommodation.city = ?1")
-	List<Accommodation> findAllAccommodationByCity(String city,Pageable limit);
+	@Query("SELECT accommodation FROM Accommodation accommodation WHERE accommodation.city LIKE CONCAT('%',:city,'%')")
+	Page<Accommodation> findAllAccommodationByCityPageable(String city, Pageable limit);
 
 	@Query("SELECT accommodation FROM Accommodation accommodation WHERE accommodation.id = ?1")
 	Accommodation findAccommodationById(long id);
 
 	@Query("SELECT accommodation FROM Accommodation accommodation WHERE accommodation.name LIKE CONCAT('%',:name,'%')")
-	List<Accommodation> findAccommodationByName(@Param("name") String name,Pageable limit);
+	Page<Accommodation> findAccommodationByName(@Param("name") String name,Pageable limit);
 
 	@Query("  SELECT accommodation " +
 			" FROM Accommodation accommodation " +
@@ -82,7 +82,7 @@ public interface AccommodationRepository extends CrudRepository<Accommodation, L
 			" 		accommodation.city LIKE CONCAT('%',:generic,'%') OR" +
 			"       accommodation.description LIKE CONCAT('%',:generic,'%') " +
 			" ORDER BY accommodation.id DESC ")
-	List<Accommodation> findAccommodationByGeneric(@Param("generic") String generic,Pageable limit);
+	Page<Accommodation> findAccommodationByGeneric(@Param("generic") String generic,Pageable limit);
 
 	@Query("  SELECT accommodation " +
 			" FROM Accommodation accommodation " +
@@ -91,7 +91,7 @@ public interface AccommodationRepository extends CrudRepository<Accommodation, L
 			"       accommodation.description LIKE CONCAT('%',:generic,'%') )AND" +
 			"				accommodation.category=:category  " +
 			" ORDER BY accommodation.id DESC ")
-	List<Accommodation> findAccommodationByGenericAndCategory(@Param("generic")String generic,@Param("category")String category,Pageable limit);
+	Page<Accommodation> findAccommodationByGenericAndCategory(@Param("generic")String generic,@Param("category")String category,Pageable limit);
 
 	@Query("  SELECT accommodation " +
 			" FROM Accommodation accommodation " +
@@ -100,7 +100,7 @@ public interface AccommodationRepository extends CrudRepository<Accommodation, L
 			"       accommodation.description LIKE CONCAT('%',:generic,'%') )AND" +
 			"				accommodation.subCategory=:subcategory  " +
 			" ORDER BY accommodation.id DESC ")
-	List<Accommodation> findAccommodationByGenericAndSubCategory(@Param("generic")String generic,@Param("subcategory")String subcategory,Pageable limit);
+	Page<Accommodation> findAccommodationByGenericAndSubCategory(@Param("generic")String generic,@Param("subcategory")String subcategory,Pageable limit);
 }
 
 
