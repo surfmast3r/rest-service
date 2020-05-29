@@ -1,10 +1,13 @@
 package com.ingsw.restservice.model;
 
+import com.ingsw.restservice.model.DTO.JsonPageResponse;
+
 import java.util.List;
 
 public interface ReviewDao {
 
-	public List<Review> getReviewList(int accommodationId);
+    boolean deleteReview(long reviewId);
 	public Review getReviewById(int id);
 	public Review changeReviewStatus(int id, String status);
-}
+    public JsonPageResponse<Review> getReviewList(int accommodationId, int pageNumber);
+    }

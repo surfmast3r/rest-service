@@ -46,8 +46,6 @@ public class Accommodation {
 				
 	}
 
-	
-
 	/*getter*/
 	public String getImages() {
 		return images;

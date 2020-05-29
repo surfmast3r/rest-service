@@ -80,18 +80,18 @@ public class AccommodationDaoSql implements AccommodationDao {
 		Page<Accommodation> page=null;
 		if(!subCategory.equals("")){
 			if(query.length()>3)
-				page=repository.findAccommodationByGenericAndSubCategory(query,subCategory,PageRequest.of(pageNumber,2));
+				page=repository.findAccommodationByGenericAndSubCategory(query,subCategory,PageRequest.of(pageNumber,10));
 			else
-				page=repository.findAccommodationBySubCategory(subCategory,PageRequest.of(pageNumber,2));
+				page=repository.findAccommodationBySubCategory(subCategory,PageRequest.of(pageNumber,10));
 		}
 		else if(!category.equals("")){
 			if(query.length()>3)
-				page=repository.findAccommodationByGenericAndCategory(query,category,PageRequest.of(pageNumber,2));
+				page=repository.findAccommodationByGenericAndCategory(query,category,PageRequest.of(pageNumber,10));
 			else
-				page=repository.findAccommodationByCategory(category,PageRequest.of(pageNumber,2));
+				page=repository.findAccommodationByCategory(category,PageRequest.of(pageNumber,10));
 
 		}
-		page= repository.findAccommodationByGeneric(query,PageRequest.of(pageNumber,2));
+		page= repository.findAccommodationByGeneric(query,PageRequest.of(pageNumber,10));
 
 		return createJsonPageResponse(page );
 

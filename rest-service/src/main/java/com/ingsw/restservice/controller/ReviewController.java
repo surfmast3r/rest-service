@@ -2,29 +2,27 @@ package com.ingsw.restservice.controller;
 
 import java.util.List;
 
+import com.ingsw.restservice.model.*;
+import com.ingsw.restservice.model.DTO.JsonPageResponse;
+import com.ingsw.restservice.model.DTO.JsonResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import com.ingsw.restservice.model.Review;
-import com.ingsw.restservice.model.ReviewDao;
-import com.ingsw.restservice.model.ReviewDaoStub;
+import org.springframework.web.bind.annotation.*;
 
 @RestController	
 public class ReviewController {
 
-	private ReviewDao reviewDao= new ReviewDaoStub();
+	private ReviewDao reviewDao= new ReviewDaoSql();
 	
-	@GetMapping(value = "/review", params = "accommodationId")
-	public List<Review> getReviews(@RequestParam int accommodationId) {
-		
-		return reviewDao.getReviewList(accommodationId);
-		
+	@RequestMapping( method=RequestMethod.GET ,value = "/review", params = {"accommodationId","page"} )
+	@ResponseBody
+	public ResponseEntity<Object> getReviews(@RequestParam int accommodationId, int page) {
+		JsonPageResponse<Review> reviewList=reviewDao.getReviewList(accommodationId,page);
+		if(reviewList!=null)
+			return new ResponseEntity<>(reviewList, HttpStatus.OK);
+		else
+			return new ResponseEntity<>(new JsonResponse(false,"Recensioni non trovate"), HttpStatus.BAD_REQUEST);
+
 	}
 	
 	@GetMapping(value = "/review", params = "reviewId")
