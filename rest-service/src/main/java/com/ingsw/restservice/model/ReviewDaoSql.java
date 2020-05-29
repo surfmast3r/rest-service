@@ -22,7 +22,7 @@ public class ReviewDaoSql implements ReviewDao {
 
     @Override
     public JsonPageResponse<Review> getReviewList(int accommodationId, int pageNumber) {
-        return (JsonPageResponse<Review>) repository.findReviewByAccommodation(accommodationId, PageRequest.of(pageNumber,10));
+        return (JsonPageResponse<Review>)  repository.findReviewByAccommodation(accommodationId, PageRequest.of(pageNumber,10));
     }
 
 
