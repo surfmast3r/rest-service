@@ -16,14 +16,21 @@ import javax.transaction.Transactional;
 public interface ReviewRepository extends CrudRepository<Review, Long> {
 
     @Transactional
-    @Modifying
+    @Modifying//(clearAutomatically = true, flushAutomatically = true)
     @Query("DELETE FROM Review r WHERE r.id=?1")
     int deleteReviewById(long reviewId);
 
     @Query("SELECT r " +
             "FROM Review r " +
-            "WHERE r.accommodationId=:idAccommodation "+
+            "WHERE r.idAccommodation=:idAccommodation "+
             "ORDER BY r.rating DESC")
-    Page<Review> findReviewByAccommodation(@Param("idAccommodation") int idAccommodation, Pageable limit);
+    Page<Review> findReviewByAccommodation(@Param("idAccommodation") long idAccommodation, Pageable limit);
 
+    @Transactional
+    @Modifying//(clearAutomatically = true, flushAutomatically = true)
+    @Query("UPDATE Review r SET r.stato=:status WHERE r.id=:idReview")
+    Review changeStatus (@Param("idReview") long idReview,@Param("status") String status );
+
+    @Query("SELECT r FROM Review r WHERE r.id=:idReview")
+    Review findReviewById(@Param ("idReview") long idReview);
 }

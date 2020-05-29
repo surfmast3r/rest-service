@@ -17,28 +17,18 @@ public class AccommodationDaoSql implements AccommodationDao {
     private AccommodationRepository repository;
 
 	@Override
-	public List<Accommodation> findAll() {
-		return (List<Accommodation>) repository.findAll();
-	}
-
-	@Override
 	public JsonPageResponse getAccommodationByCityPageable(String city, int pageNumber) {
 		Page<Accommodation> page=repository.findAllAccommodationByCityPageable(city,PageRequest.of(pageNumber,50));
 		return createJsonPageResponse(page );
 	}
-
 	@Override
 	public Accommodation getAccommodationById(long id) {
 		return repository.findAccommodationById(id);
 	}
-
-
 	@Override
 	public Accommodation createAccommodation(Accommodation accommodation) {
 		 return repository.save(accommodation);
 		}
-
-
 	@Override
 	public boolean editAccommodation(Accommodation accommodation) {
 			int response=repository.editAccommodation( accommodation.getId(),accommodation.getDescription(),
@@ -56,25 +46,11 @@ public class AccommodationDaoSql implements AccommodationDao {
 			
 
 	}
-
-
 	@Override
 	public boolean deleteAccommodation(long accommodationId) {
 		int response=repository.deleteAccommodationById(accommodationId);
-		if(response>0) {
-			return true;
-		}
-		return false;
-		
+		return response > 0;
 	}
-
-	@Override
-	public JsonPageResponse<Accommodation> getAccommodationOrderByRating(int pageNumber) {
-		Page<Accommodation> page = repository.findAccommodationOrderByRating(PageRequest.of(pageNumber,50));
-
-		return createJsonPageResponse(page );
-	}
-
 	@Override
 	public JsonPageResponse<Accommodation> getAccommodations(String query, String category, String subCategory, int pageNumber) {
 		Page<Accommodation> page=null;
@@ -99,6 +75,7 @@ public class AccommodationDaoSql implements AccommodationDao {
 
 	}
 
+
 	private JsonPageResponse<Accommodation> createJsonPageResponse(Page<Accommodation> page){
 		JsonPageResponse<Accommodation> jsonPageResponse= new JsonPageResponse<>();
 		jsonPageResponse.setTotalPages(page.getTotalPages());
@@ -113,3 +90,4 @@ public class AccommodationDaoSql implements AccommodationDao {
 
 
 }
+

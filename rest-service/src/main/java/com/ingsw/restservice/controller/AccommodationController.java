@@ -25,16 +25,18 @@ public class AccommodationController {
 	private AccommodationDao acDao;
 	
 	@RequestMapping(value = "/")
-	public ResponseEntity<Object> welcomeMessage() { 
-      
+	@ResponseBody
+	public ResponseEntity<Object> welcomeMessage() {
 		return new ResponseEntity<>("CoVi19 up and running!!!", HttpStatus.OK);
-		
    }
 
 
 	@RequestMapping(method = RequestMethod.GET, value="/accommodation",params = {"query","category","subCategory","page"})
 	@ResponseBody	
-	public ResponseEntity<Object> getAccommodations(@RequestParam(defaultValue = "") String query,String category,String subCategory,int page) {
+	public ResponseEntity<Object> getAccommodations(@RequestParam(defaultValue = "") String query,
+													@RequestParam(defaultValue = "") String category,
+													@RequestParam(defaultValue = "") String subCategory,
+													@RequestParam(defaultValue = "0") int page) {
 
 		JsonPageResponse<Accommodation>accommodationList=acDao.getAccommodations(query,category,subCategory,page);
 		if(accommodationList!=null)
@@ -44,6 +46,7 @@ public class AccommodationController {
 
 	}
 	
+
 	@RequestMapping(method = RequestMethod.GET, value="/accommodation",params ="accommodationId")
 	@ResponseBody	
 	public ResponseEntity<Object> getAccommodationById(@RequestParam int accommodationId) {
@@ -60,13 +63,14 @@ public class AccommodationController {
 	@ResponseBody	
 	public ResponseEntity<Object> createAccommodation(@RequestBody Accommodation accommodation) {
 	
-		acDao.createAccommodation(accommodation);
+		Accommodation ac= acDao.createAccommodation(accommodation);
 	
-		return  new ResponseEntity<>(accommodation, HttpStatus.CREATED) ;
+		return  new ResponseEntity<>(ac, HttpStatus.CREATED) ;
 	}
 	
 	@RequestMapping(value = "/accommodation/edit/", method = RequestMethod.PUT)
-	public ResponseEntity<Object> updateAccommodation(@RequestBody Accommodation accommodation) { 
+	@ResponseBody
+	public ResponseEntity<Object> updateAccommodation(@RequestBody Accommodation accommodation) {
       
 		boolean response=acDao.editAccommodation(accommodation);
 		
@@ -79,7 +83,8 @@ public class AccommodationController {
    }
 	
 	@RequestMapping(value = "/accommodation/delete/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Object> delete(@PathVariable("id") long id) { 
+	@ResponseBody
+	public ResponseEntity<Object> delete(@PathVariable("id") long id) {
       if(acDao.deleteAccommodation(id)) {
     	  return new ResponseEntity<>("Accommodation is deleted", HttpStatus.OK);
       }

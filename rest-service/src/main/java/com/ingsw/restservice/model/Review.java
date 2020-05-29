@@ -1,6 +1,7 @@
 package com.ingsw.restservice.model;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "review")
@@ -9,95 +10,106 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    private int id;
-    private int accommodationId;
-    private String accommodationName;
-	private String author;
-    private String reviewText;
+    private long id;
+    private String content;
     private float rating;
-    private String data;
-    private Status status;
-    
-    public Review(Builder builder) {
-    	this.id=builder.id;
-    	this.accommodationId=builder.accommodationId;
-    	this.accommodationName=builder.accommodationName;
-        this.author=builder.author;
-        this.reviewText=builder.reviewText;
-        this.rating=builder.rating;
-        this.data= builder.data;
-        this.status=builder.status;
-    }
-    public int getId() {
+    private String stato;
+    private long idAccommodation;
+    private long idUser;
+    private Date creation_date;
+
+
+    public Review(){
+        //VACANTE
+    };
+    public long getId() {
         return id;
     }
-    public int getAccommodationId() {
-  		return accommodationId;
-  	}
-    
-    public String getAccommodationName() {
-  		return accommodationName;
-  	}
-    
-    public String getAuthor() {
-        return author;
+
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public String getReviewText() {
-        return reviewText;
+    public String getContent() {
+        return content;
     }
 
-    public String getData() {
-        return data;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public float getRating() {
         return rating;
     }
-    
-    public Status getStatus() {
-		return status;
-	}
-    
-    public void setId(int id) {
-		this.id = id;
-	}
-	public void setAccommodationName(String accommodationName) {
-		this.accommodationName = accommodationName;
-	}
-	public void setAuthor(String author) {
-		this.author = author;
-	}
-	public void setReviewText(String reviewText) {
-		this.reviewText = reviewText;
-	}
-	public void setRating(float rating) {
-		this.rating = rating;
-	}
-	public void setData(String data) {
-		this.data = data;
-	}
-	public void setStatus(Status status) {
-		this.status = status;
-	}
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
+    public String getStato() {
+        return stato;
+    }
+
+    public void setStato(String stato) {
+        this.stato = stato;
+    }
+
+    public long getIdAccommodation() {
+        return idAccommodation;
+    }
+
+    public void setIdAccommodation(long idAccommodation) {
+        this.idAccommodation = idAccommodation;
+    }
+
+    public long getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(long idUser) {
+        this.idUser = idUser;
+    }
+
+    public Date getCreation_date() {
+        return creation_date;
+    }
+
+    public void setCreation_date(Date creation_date) {
+        this.creation_date = creation_date;
+    }
+
+
+
+    public Review(Builder builder) {
+    	this.id=builder.id;
+    	this.content=builder.content;
+    	this.idAccommodation=builder.idAccommodation;
+    	this.idUser=builder.idUser;
+        this.rating=builder.rating;
+        this.creation_date= builder.creation_date;
+        this.stato=builder.stato;
+    }
     
     public static class Builder {
 
-    	private int id;
-    	public int accommodationId;
-        private String accommodationName;
-		private String data;
-        private String author;
-        private String reviewText;
+        private long id;
+        private String content;
         private float rating;
-        private Status status;
+        private String stato;
+        private long idAccommodation;
+        private long idUser;
+        private Date creation_date;
 
-        public Builder setId(int id) {
+
+
+        public Builder setId(long id) {
             this.id = id;
             return this;
         }
-        public Builder setReviewText(String reviewText) {
-            this.reviewText = reviewText;
+
+
+        public Builder setContent(String content) {
+            this.content = content;
             return this;
         }
 
@@ -106,29 +118,31 @@ public class Review {
             return this;
         }
 
-        public Builder setAccommodationId(int idAccommodation) {
-            this.accommodationId = idAccommodation;
+
+        public Builder setStato(String stato) {
+            this.stato = stato;
             return this;
         }
-        
-        public Builder setAccommodationName(String nameAccommodation) {
-			this.accommodationName = nameAccommodation;
-			return this;
-		}
-        
-        public Builder setAuthor(String author) {
-            this.author = author;
+
+
+        public Builder setIdAccommodation(long idAccommodation) {
+            this.idAccommodation = idAccommodation;
             return this;
         }
-        public Builder setData(String data) {
-            this.data = data;
+
+
+        public Builder setIdUser(long idUser) {
+            this.idUser = idUser;
             return this;
         }
-        
-        public Builder setStatus(Status status) {
-        	this.status=status;
-        	return this;
+
+
+        public Builder setCreation_date(Date creation_date) {
+            this.creation_date = creation_date;
+            return this;
         }
+
+
 
         public Review build() {
             return new Review(this);

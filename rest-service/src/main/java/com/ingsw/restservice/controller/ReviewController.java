@@ -5,6 +5,8 @@ import java.util.List;
 import com.ingsw.restservice.model.*;
 import com.ingsw.restservice.model.DTO.JsonPageResponse;
 import com.ingsw.restservice.model.DTO.JsonResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,8 +14,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController	
 public class ReviewController {
 
-	private ReviewDao reviewDao= new ReviewDaoSql();
-	
+	@Autowired
+	@Qualifier("reviewDaoSql")
+	private ReviewDao reviewDao;
+
 	@RequestMapping( method=RequestMethod.GET ,value = "/review", params = {"accommodationId","page"} )
 	@ResponseBody
 	public ResponseEntity<Object> getReviews(@RequestParam int accommodationId, int page) {
@@ -24,7 +28,14 @@ public class ReviewController {
 			return new ResponseEntity<>(new JsonResponse(false,"Recensioni non trovate"), HttpStatus.BAD_REQUEST);
 
 	}
-	
+
+	@RequestMapping(method = RequestMethod.POST, value="/review/create")
+	@ResponseBody
+	public ResponseEntity<Object> createReview(@RequestBody Review review) {
+		Review newReview=reviewDao.createReview(review);
+		return  new ResponseEntity<>(newReview, HttpStatus.CREATED) ;
+	}
+
 	@GetMapping(value = "/review", params = "reviewId")
 	public Review getReviewById(@RequestParam int reviewId) {
 		
