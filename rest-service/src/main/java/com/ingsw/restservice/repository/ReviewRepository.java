@@ -34,7 +34,7 @@ public interface ReviewRepository extends CrudRepository<Review, Long> {
     @Query("SELECT r FROM Review r WHERE r.id=:idReview")
     Review findReviewById(@Param ("idReview") long idReview);
 
-
+    // Ritorna String Username, long id, String content, float rating...  quello che serve.. l'entità review del client? NO... bho ciao xd
     @Query("SELECT "+
     "FROM ( 	SELECT u.nickname as username, r.id as id , r.content, r.rating, r.idAccommodation, u.creation_date " +
     "           FROM USERS u JOIN Review r ON u.IdUser=r.IdUser "+
@@ -44,5 +44,27 @@ public interface ReviewRepository extends CrudRepository<Review, Long> {
     "           WHERE u.showNickname==false) "+
     "           ORDER BY id ")
     Page<Review> findReviewUsers();
+
+    @Query("SELECT "+
+            "FROM ( 	SELECT u.nickname as username, r.id as id , r.content, r.rating, r.idAccommodation, u.creation_date " +
+            "           FROM USERS u JOIN Review r ON u.IdUser=r.IdUser "+
+            "           WHERE u.showNickname=true) UNION " +
+            "         ( SELECT u.name ,r.id , r.content, r.rating, r.idAccommodation, u.creation_date "+
+            "           FROM USERS u JOIN Review r ON u.IdUser=r.IdUser "+
+            "           WHERE u.showNickname==false AND r.idUser=:idUser) "+
+            "           ORDER BY id ")
+    Page<Review> findReviewUsersByUser(@Param("idUser") long idUser);
+
+    @Query("SELECT "+
+            "FROM ( 	SELECT u.nickname as username, r.id as id , r.content, r.rating, r.idAccommodation, u.creation_date " +
+            "           FROM USERS u JOIN Review r ON u.IdUser=r.IdUser "+
+            "           WHERE u.showNickname=true AND r.idReview=:idReview) UNION " +
+            "         ( SELECT u.name ,r.id , r.content, r.rating, r.idAccommodation, u.creation_date "+
+            "           FROM USERS u JOIN Review r ON u.IdUser=r.IdUser "+
+            "           WHERE u.showNickname==false AND r.idReview=:idReview) "+
+            "           ORDER BY id ")
+    Page<Review> findReviewUsersByReview(@Param("idReview") long idReview);
+
+
 
 }
