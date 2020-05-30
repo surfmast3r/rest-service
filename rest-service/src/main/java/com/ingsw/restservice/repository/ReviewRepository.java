@@ -33,4 +33,16 @@ public interface ReviewRepository extends CrudRepository<Review, Long> {
 
     @Query("SELECT r FROM Review r WHERE r.id=:idReview")
     Review findReviewById(@Param ("idReview") long idReview);
+
+
+    @Query("SELECT "+
+    "FROM ( 	SELECT u.nickname as username, r.id as id , r.content, r.rating, r.idAccommodation, u.creation_date " +
+    "           FROM USERS u JOIN Review r ON u.IdUser=r.IdUser "+
+    "           WHERE u.showNickname=true) UNION " +
+    "         ( SELECT u.name ,r.id , r.content, r.rating, r.idAccommodation, u.creation_date "+
+    "           FROM USERS u JOIN Review r ON u.IdUser=r.IdUser "+
+    "           WHERE u.showNickname==false) "+
+    "           ORDER BY id ")
+    Page<Review> findReviewUsers();
+
 }
