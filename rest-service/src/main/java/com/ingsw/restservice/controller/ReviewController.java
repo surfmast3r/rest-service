@@ -5,6 +5,7 @@ import java.util.List;
 import com.ingsw.restservice.model.*;
 import com.ingsw.restservice.model.DTO.JsonPageResponse;
 import com.ingsw.restservice.model.DTO.JsonResponse;
+import com.ingsw.restservice.model.DTO.ReviewUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -42,7 +43,8 @@ public class ReviewController {
 		return reviewDao.getReviewById(reviewId);
 		
 	}
-	
+
+
 	@RequestMapping(value = "/review/edit/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Object> changeReviewStatus(@PathVariable("id") int id, @RequestParam("status")String status) { 
       	
@@ -55,5 +57,19 @@ public class ReviewController {
 			return new ResponseEntity<>("Review not updated", HttpStatus.NOT_FOUND);
 		
    }
-	
+
+
+
+
+    /*@RequestMapping( method=RequestMethod.GET, value = "/review", params = {"userId","pagenumber"} )
+    @ResponseBody
+    public ResponseEntity<Object> getReviewUserByUser(@RequestParam int userId,int pagenumber) {
+        JsonPageResponse<ReviewUser> reviewUserList=reviewDao.getReviewUserByUser(userId,pagenumber);
+        if(reviewUserList!=null)
+            return new ResponseEntity<>(reviewUserList, HttpStatus.OK);
+        else
+            return new ResponseEntity<>(new JsonResponse(false,"Recensioni non trovate"), HttpStatus.BAD_REQUEST);
+
+    }*/
+
 }
