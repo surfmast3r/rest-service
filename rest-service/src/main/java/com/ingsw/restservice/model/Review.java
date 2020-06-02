@@ -13,10 +13,10 @@ public class Review {
     private long id;
     private String content;
     private float rating;
-    private String stato;
+    private String stato="PENDING";
     private long idAccommodation;
     private long idUser;
-    private Date creation_date;
+    private Date creation_date= new Date();
 
 
     public Review(){

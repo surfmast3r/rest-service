@@ -1,8 +1,8 @@
 package com.ingsw.restservice.model;
 
 import com.ingsw.restservice.model.DTO.JsonPageResponse;
-import com.ingsw.restservice.model.DTO.ReviewUser;
 import com.ingsw.restservice.repository.ReviewRepository;
+import com.ingsw.restservice.repository.ReviewViewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,34 +12,34 @@ import org.springframework.stereotype.Service;
 public class ReviewDaoSql implements ReviewDao {
 
     @Autowired
-    private ReviewRepository repository;
+    private ReviewRepository reviewRepository;
+
+    @Autowired
+    private ReviewViewRepository reviewViewRepository;
 
     @Override public Review createReview(Review review) {
-        System.out.println(review.getContent());
-        return repository.save(review);
+        return reviewRepository.save(review);
     }
-
- /*   @Override
-    public JsonPageResponse<ReviewUser> getReviewUserByUser(int userId, int pageNumber) {
-        Page<ReviewUser> page = repository.findReviewUsersByUser(userId, PageRequest.of(pageNumber, 10));
-        return createJsonPageResponse(page );
-    }
-*/
     @Override public boolean deleteReview(long reviewId) {
-        int response=repository.deleteReviewById(reviewId);
+        int response= reviewRepository.deleteReviewById(reviewId);
         return response>0;
     }
+    @Override public Review getReviewById(int id) {
+        return reviewRepository.findReviewById(id);
+    }
+    @Override public ReviewView changeReviewStatus(int id, String status) {
+        int response=reviewRepository.changeStatus(id,status);
+        if(response>0)  return getReviewView(id);
+        else            return  null;
+    }
 
 
-    @Override public JsonPageResponse<Review> getReviewList(int accommodationId, int pageNumber) {
-        Page<Review> page = repository.findReviewByAccommodation(accommodationId, PageRequest.of(pageNumber, 10));
+    @Override public JsonPageResponse<ReviewView> getReviewUserByAccommodation(int accomodationId, int pageNumber) {
+        Page<ReviewView> page = reviewViewRepository.findReviewByUser(accomodationId, PageRequest.of(pageNumber, 10));
         return createJsonPageResponse(page );
     }
-    @Override public Review getReviewById(int id) {
-        return repository.findReviewById(id);
-    }
-    @Override public Review changeReviewStatus(int id, String status) {
-        return repository.changeStatus(id,status);
+    @Override public ReviewView getReviewView(long id) {
+        return reviewViewRepository.findReviewByUser(id);
     }
 
 
