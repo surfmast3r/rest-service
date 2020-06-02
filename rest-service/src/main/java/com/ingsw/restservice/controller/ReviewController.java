@@ -19,9 +19,10 @@ public class ReviewController {
 	@Qualifier("reviewDaoSql")
 	private ReviewDao reviewDao;
 
-	@RequestMapping( method=RequestMethod.GET ,value = "/review", params = {"accommodationId","page"} )
+	@RequestMapping( method=RequestMethod.GET ,value = "/review" )
 	@ResponseBody
-	public ResponseEntity<Object> getReviews(@RequestParam int accommodationId, int page) {
+	public ResponseEntity<Object> getReviews(@RequestParam(value="accommodationId") int accommodationId,
+											 @RequestParam(value="page",required = false,defaultValue = "0") int page) {
 		JsonPageResponse<Review> reviewList=reviewDao.getReviewList(accommodationId,page);
 		if(reviewList!=null)
 			return new ResponseEntity<>(reviewList, HttpStatus.OK);
