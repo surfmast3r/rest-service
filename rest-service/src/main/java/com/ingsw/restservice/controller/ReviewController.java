@@ -60,19 +60,25 @@ public class ReviewController {
 
 
 
-    @RequestMapping( method=RequestMethod.GET, value = "/review_view", params = {"accommodationId","page"} )
+    @RequestMapping( method=RequestMethod.GET, value = "/review_view")
     @ResponseBody
-    public ResponseEntity<Object> getReviewUserByAccommodation(@RequestParam int accommodationId,int page) {
-        JsonPageResponse<ReviewView> reviewUserList=reviewDao.getReviewUserByAccommodation(accommodationId,page);
+    public ResponseEntity<Object> getReviewUserByAccommodation(@RequestParam(name="reviewId",required = false,defaultValue = "-1") long reviewId,
+                                                                @RequestParam(name="accommodationId",required = false,defaultValue = "-1") long accommodationId,
+                                                                @RequestParam(name="accommodationName",required = false) String accommodationName,
+                                                                @RequestParam(name="content",required = false) String content,
+                                                                @RequestParam(name="status",required = false) String status,
+                                                                @RequestParam(name="page",required = false,defaultValue = "0") int page)
+    {
+        JsonPageResponse<ReviewView> reviewUserList=reviewDao.getReviewView(reviewId,accommodationId,accommodationName,content,status,page);
         if(reviewUserList!=null)
-            return new ResponseEntity<>(reviewUserList, HttpStatus.OK);
+        return new ResponseEntity<>(reviewUserList, HttpStatus.OK);
         else
-            return new ResponseEntity<>(new JsonResponse(false,"Recensioni non trovate"), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new JsonResponse(false,"Recensioni non trovate"), HttpStatus.BAD_REQUEST);
 
     }
 
     @GetMapping(value = "/review_view", params = "reviewId")
-    public ReviewView getReviewViewById(@RequestParam int reviewId) {
+    public ReviewView getReviewViewById(@RequestParam(name="reviewId") int reviewId) {
 
         return reviewDao.getReviewView(reviewId);
 

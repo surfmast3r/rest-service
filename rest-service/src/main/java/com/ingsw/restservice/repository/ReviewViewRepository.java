@@ -10,10 +10,24 @@ import org.springframework.data.repository.query.Param;
 public interface ReviewViewRepository extends CrudRepository<ReviewView, Long> {
 
     @Query(" SELECT a FROM ReviewView a WHERE a.accommodationId=:idAccommodation ORDER BY a.rating DESC")
-    Page<ReviewView> findReviewByUser(@Param("idAccommodation") long idAccommodation, Pageable limit);
+    Page<ReviewView> findReviewByAccommodationId(@Param("idAccommodation") long idAccommodation, Pageable limit);
 
     @Query(" SELECT a FROM ReviewView a WHERE a.id=:idReview")
-    ReviewView findReviewByUser(@Param("idReview") long idReview);
+    ReviewView findReviewById(@Param("idReview") long idReview);
+
+    @Query(" SELECT a FROM ReviewView a WHERE ((a.id=:reviewId OR :reviewId=-1)" +
+            "AND (a.accommodationId=:accommodationId OR :accommodationId=-1)" +
+            "AND (a.accommodationName LIKE CONCAT('%',:accommodationName ,'%') OR :accommodationName is null)" +
+            "AND (a.content LIKE CONCAT('%',content ,'%') OR :content is null)" +
+            "AND (a.stato=:stato OR :stato is null))")
+    Page<ReviewView> findReviewBySearchParams(
+            @Param("reviewId") long reviewId,
+            @Param("accommodationId") long accommodationId,
+            @Param("accommodationName") String accommodationName,
+            @Param("content") String content,
+            @Param("stato") String status,
+            Pageable limit
+    );
 
 
 
