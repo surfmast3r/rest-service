@@ -34,10 +34,6 @@ public class ReviewDaoSql implements ReviewDao {
     }
 
 
-    @Override public JsonPageResponse<ReviewView> getReviewUserByAccommodation(int accomodationId, int pageNumber) {
-        Page<ReviewView> page = reviewViewRepository.findReviewByAccommodationId(accomodationId, PageRequest.of(pageNumber, 10));
-        return createJsonPageResponse(page );
-    }
     @Override public ReviewView getReviewView(long id) {
         return reviewViewRepository.findReviewById(id);
     }

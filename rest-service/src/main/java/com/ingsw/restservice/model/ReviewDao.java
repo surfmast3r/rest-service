@@ -8,8 +8,6 @@ public interface ReviewDao {
      Review getReviewById(int id);
      ReviewView changeReviewStatus(int id, String status);
      Review createReview(Review review);
-     JsonPageResponse<ReviewView> getReviewUserByAccommodation(int accommodationId, int pageNumber);
      ReviewView getReviewView(long id);
-
      JsonPageResponse<ReviewView> getReviewView(long reviewId, long accommodationId, String accommodationName, String content, String status,int pageNumber);
 }

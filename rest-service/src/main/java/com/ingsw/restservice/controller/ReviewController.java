@@ -10,11 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
-
 @RestController	
 public class ReviewController {
 
@@ -77,7 +72,7 @@ public class ReviewController {
 
     }
 
-    @GetMapping(value = "/review_view", params = "reviewId")
+    @GetMapping(value = "/single_review_view")
     public ReviewView getReviewViewById(@RequestParam(name="reviewId") int reviewId) {
 
         return reviewDao.getReviewView(reviewId);
