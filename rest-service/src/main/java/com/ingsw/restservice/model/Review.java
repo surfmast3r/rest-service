@@ -1,7 +1,7 @@
 package com.ingsw.restservice.model;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "review")
@@ -16,7 +16,7 @@ public class Review {
     private String stato="PENDING";
     private long idAccommodation;
     private long idUser;
-    private Date creation_date= new Date();
+    private LocalDateTime creation_date= LocalDateTime.now();
 
 
     public Review(){
@@ -70,11 +70,11 @@ public class Review {
         this.idUser = idUser;
     }
 
-    public Date getCreation_date() {
+    public LocalDateTime getCreation_date() {
         return creation_date;
     }
 
-    public void setCreation_date(Date creation_date) {
+    public void setCreation_date(LocalDateTime creation_date) {
         this.creation_date = creation_date;
     }
 
@@ -98,7 +98,7 @@ public class Review {
         private String stato;
         private long idAccommodation;
         private long idUser;
-        private Date creation_date;
+        private LocalDateTime creation_date;
 
 
 
@@ -137,7 +137,7 @@ public class Review {
         }
 
 
-        public Builder setCreation_date(Date creation_date) {
+        public Builder setCreation_date(LocalDateTime creation_date) {
             this.creation_date = creation_date;
             return this;
         }

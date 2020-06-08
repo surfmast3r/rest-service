@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class ReviewDaoSql implements ReviewDao {
 
+    private static final int PAGE_SIZE = 10;
+
     @Autowired
     private ReviewRepository reviewRepository;
 
@@ -30,7 +32,7 @@ public class ReviewDaoSql implements ReviewDao {
     @Override public ReviewView changeReviewStatus(int id, String status) {
         int response=reviewRepository.changeStatus(id,status);
         if(response>0)  return getReviewView(id);
-        else            return  null;
+        else            return null;
     }
 
 
@@ -40,8 +42,8 @@ public class ReviewDaoSql implements ReviewDao {
 
     @Override
     public JsonPageResponse<ReviewView> getReviewView(long reviewId, long accommodationId, String accommodationName, String content, String status, int pageNumber) {
-        Page<ReviewView> page = reviewViewRepository.findReviewBySearchParams(reviewId, accommodationId,accommodationName,content,status,PageRequest.of(pageNumber, 10));
-        return createJsonPageResponse(page );
+        Page<ReviewView> page = reviewViewRepository.findReviewBySearchParams(reviewId, accommodationId,accommodationName,content,status,PageRequest.of(pageNumber, PAGE_SIZE));
+        return createJsonPageResponse(page);
     }
 
 
