@@ -5,6 +5,7 @@ import com.ingsw.restservice.model.DTO.JsonPageResponse;
 import com.ingsw.restservice.model.DTO.JsonResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,14 +32,21 @@ public class AccommodationController {
    }
 
 
-	@RequestMapping(method = RequestMethod.GET, value="/accommodation",params = {"query","category","subCategory","page"})
+	@RequestMapping(method = RequestMethod.GET, value="/accommodation")
 	@ResponseBody	
-	public ResponseEntity<Object> getAccommodations(@RequestParam(defaultValue = "") String query,
-													@RequestParam(defaultValue = "") String category,
-													@RequestParam(defaultValue = "") String subCategory,
-													@RequestParam(defaultValue = "0") int page) {
+	public ResponseEntity<Object> getAccommodations(@RequestParam(name= "query",required = false, defaultValue = "") String query,
+													@RequestParam(name= "category",required = false, defaultValue = "") String category,
+													@RequestParam(name= "subCategory",required = false, defaultValue = "") String subCategory,
+													@RequestParam(name= "orderBy",required = false, defaultValue = "id") String orderBy,
+													@RequestParam(name= "direction",required = false, defaultValue = "DESC") String direction,
+													@RequestParam(name= "page",required = false, defaultValue = "0") int page) {
 
-		JsonPageResponse<Accommodation>accommodationList=acDao.getAccommodations(query,category,subCategory,page);
+		JsonPageResponse<Accommodation>accommodationList;
+		if(direction.equals("ASC"))
+				accommodationList= acDao.getAccommodations(query,category,subCategory,page,orderBy, Sort.Direction.ASC);
+		else
+			accommodationList= acDao.getAccommodations(query,category,subCategory,page,orderBy, Sort.Direction.DESC);
+
 		if(accommodationList!=null)
 			return new ResponseEntity<>(accommodationList, HttpStatus.OK);
 		else

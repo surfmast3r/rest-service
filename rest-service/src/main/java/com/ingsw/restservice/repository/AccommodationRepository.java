@@ -50,21 +50,18 @@ public interface AccommodationRepository extends CrudRepository<Accommodation, L
 
 
 	@Query("SELECT a " +
-			"FROM Accommodation a " +
-			"ORDER BY a.rating DESC")
+			"FROM Accommodation a ")
 	Page<Accommodation> findAccommodationOrderByRating(Pageable limit);
 
 
 	@Query(" SELECT a" +
 			" FROM Accommodation a" +
-			" WHERE a.category=:category" +
-			" ORDER BY a.id DESC")
+			" WHERE a.category=:category")
 	Page<Accommodation>findAccommodationByCategory(@Param("category") String category,Pageable limit);
 
 	@Query(" SELECT a" +
 			" FROM Accommodation a" +
-			" WHERE a.subCategory=:subcategory" +
-			" ORDER BY a.id DESC")
+			" WHERE a.subCategory=:subcategory" )
 	Page<Accommodation>findAccommodationBySubCategory(@Param("subcategory") String subcategory,Pageable limit);
 
 	@Query("SELECT accommodation FROM Accommodation accommodation WHERE accommodation.city LIKE CONCAT('%',:city,'%')")
@@ -80,8 +77,7 @@ public interface AccommodationRepository extends CrudRepository<Accommodation, L
 			" FROM Accommodation accommodation " +
 			" WHERE accommodation.name LIKE CONCAT('%',:generic,'%') OR" +
 			" 		accommodation.city LIKE CONCAT('%',:generic,'%') OR" +
-			"       accommodation.description LIKE CONCAT('%',:generic,'%') " +
-			" ORDER BY accommodation.id DESC ")
+			"       accommodation.description LIKE CONCAT('%',:generic,'%') ")
 	Page<Accommodation> findAccommodationByGeneric(@Param("generic") String generic,Pageable limit);
 
 	@Query("  SELECT accommodation " +
@@ -89,8 +85,7 @@ public interface AccommodationRepository extends CrudRepository<Accommodation, L
 			" WHERE (accommodation.name LIKE CONCAT('%',:generic,'%') OR" +
 			" 		accommodation.city LIKE CONCAT('%',:generic,'%') OR" +
 			"       accommodation.description LIKE CONCAT('%',:generic,'%') )AND" +
-			"				accommodation.category=:category  " +
-			" ORDER BY accommodation.id DESC ")
+			"				accommodation.category=:category  ")
 	Page<Accommodation> findAccommodationByGenericAndCategory(@Param("generic")String generic,@Param("category")String category,Pageable limit);
 
 	@Query("  SELECT accommodation " +
@@ -98,8 +93,7 @@ public interface AccommodationRepository extends CrudRepository<Accommodation, L
 			" WHERE (accommodation.name LIKE CONCAT('%',:generic,'%') OR" +
 			" 		accommodation.city LIKE CONCAT('%',:generic,'%') OR" +
 			"       accommodation.description LIKE CONCAT('%',:generic,'%') )AND" +
-			"				accommodation.subCategory=:subcategory  " +
-			" ORDER BY accommodation.id DESC ")
+			"				accommodation.subCategory=:subcategory  ")
 	Page<Accommodation> findAccommodationByGenericAndSubCategory(@Param("generic")String generic,@Param("subcategory")String subcategory,Pageable limit);
 }
 

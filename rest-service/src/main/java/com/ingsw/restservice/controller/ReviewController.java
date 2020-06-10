@@ -6,6 +6,7 @@ import com.ingsw.restservice.model.DTO.JsonResponse;
 import com.ingsw.restservice.model.ReviewView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -63,9 +64,16 @@ public class ReviewController {
                                                                 @RequestParam(name="content",required = false) String content,
                                                                 @RequestParam(name="status",required = false) String status,
                                                                 @RequestParam(name="page",required = false,defaultValue = "0") int page,
-                                                                @RequestParam(name="orderBy", required = false, defaultValue = "id") String orderBy)
+                                                                @RequestParam(name="orderBy", required = false, defaultValue = "id") String orderBy,
+                                                                @RequestParam(name="direction", required = false, defaultValue = "DESC") String direction)
     {
-        JsonPageResponse<ReviewView> reviewUserList=reviewDao.getReviewView(reviewId,accommodationId,accommodationName,content,status,page,orderBy);
+        JsonPageResponse<ReviewView> reviewUserList;
+        if(direction.equals("ASC"))
+            reviewUserList=reviewDao.getReviewView(reviewId,accommodationId,accommodationName,content,status,page,orderBy, Sort.Direction.ASC);
+        else
+            reviewUserList=reviewDao.getReviewView(reviewId,accommodationId,accommodationName,content,status,page,orderBy, Sort.Direction.DESC);
+
+
         if(reviewUserList!=null)
         return new ResponseEntity<>(reviewUserList, HttpStatus.OK);
         else

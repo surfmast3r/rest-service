@@ -6,6 +6,7 @@ import com.ingsw.restservice.model.DTO.JsonPageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.ingsw.restservice.repository.AccommodationRepository;
@@ -52,22 +53,26 @@ public class AccommodationDaoSql implements AccommodationDao {
 		return response > 0;
 	}
 	@Override
-	public JsonPageResponse<Accommodation> getAccommodations(String query, String category, String subCategory, int pageNumber) {
+	public JsonPageResponse<Accommodation> getAccommodations(String query, String category, String subCategory, int pageNumber, String orderBy, Sort.Direction direction) {
 		Page<Accommodation> page=null;
-		if(!subCategory.equals("")){
+		System.out.println("ECCOLI:"+orderBy+direction);
+		if(!subCategory.equals(""))
+		{
 			if(query.length()>3)
-				page=repository.findAccommodationByGenericAndSubCategory(query,subCategory,PageRequest.of(pageNumber,10));
+				page=repository.findAccommodationByGenericAndSubCategory(query,subCategory,PageRequest.of(pageNumber,10,Sort.by(direction, orderBy)));
 			else
-				page=repository.findAccommodationBySubCategory(subCategory,PageRequest.of(pageNumber,10));
+				page=repository.findAccommodationBySubCategory(subCategory,PageRequest.of(pageNumber,10,Sort.by(direction, orderBy)));
 		}
-		else if(!category.equals("")){
-			if(query.length()>3)
-				page=repository.findAccommodationByGenericAndCategory(query,category,PageRequest.of(pageNumber,10));
+		else
+			if (!category.equals(""))
+			{
+				if (query.length() > 3)
+					page = repository.findAccommodationByGenericAndCategory(query, category, PageRequest.of(pageNumber, 10, Sort.by(direction, orderBy)));
+				else
+					page = repository.findAccommodationByCategory(category, PageRequest.of(pageNumber, 10, Sort.by(direction, orderBy)));
+			}
 			else
-				page=repository.findAccommodationByCategory(category,PageRequest.of(pageNumber,10));
-
-		}
-		page= repository.findAccommodationByGeneric(query,PageRequest.of(pageNumber,10));
+				page = repository.findAccommodationByGeneric(query, PageRequest.of(pageNumber, 10, Sort.by(direction, orderBy)));
 
 		return createJsonPageResponse(page );
 

@@ -42,8 +42,9 @@ public class ReviewDaoSql implements ReviewDao {
     }
 
     @Override
-    public JsonPageResponse<ReviewView> getReviewView(long reviewId, long accommodationId, String accommodationName, String content, String status, int pageNumber, String orderBy) {
-        Page<ReviewView> page = reviewViewRepository.findReviewBySearchParams(reviewId, accommodationId,accommodationName,content,status,PageRequest.of(pageNumber, PAGE_SIZE,Sort.by(Sort.Direction.DESC, orderBy)));
+    public JsonPageResponse<ReviewView> getReviewView(long reviewId, long accommodationId, String accommodationName, String content, String status, int pageNumber, String orderBy, Sort.Direction direction) {
+
+        Page<ReviewView> page = reviewViewRepository.findReviewBySearchParams(reviewId, accommodationId, accommodationName, content, status, PageRequest.of(pageNumber, PAGE_SIZE, Sort.by(direction, orderBy)));
         return createJsonPageResponse(page);
     }
 

@@ -18,7 +18,6 @@ public class Review {
     private long idUser;
     private LocalDateTime creation_date= LocalDateTime.now();
 
-
     public Review(){
         //VACANTE
     };
