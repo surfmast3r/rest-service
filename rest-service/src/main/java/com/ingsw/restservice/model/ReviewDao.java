@@ -9,5 +9,5 @@ public interface ReviewDao {
      ReviewView changeReviewStatus(int id, String status);
      Review createReview(Review review);
      ReviewView getReviewView(long id);
-     JsonPageResponse<ReviewView> getReviewView(long reviewId, long accommodationId, String accommodationName, String content, String status,int pageNumber);
+     JsonPageResponse<ReviewView> getReviewView(long reviewId, long accommodationId, String accommodationName, String content, String status,int pageNumber, String orderBy);
 }

@@ -6,6 +6,7 @@ import com.ingsw.restservice.repository.ReviewViewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -41,8 +42,8 @@ public class ReviewDaoSql implements ReviewDao {
     }
 
     @Override
-    public JsonPageResponse<ReviewView> getReviewView(long reviewId, long accommodationId, String accommodationName, String content, String status, int pageNumber) {
-        Page<ReviewView> page = reviewViewRepository.findReviewBySearchParams(reviewId, accommodationId,accommodationName,content,status,PageRequest.of(pageNumber, PAGE_SIZE));
+    public JsonPageResponse<ReviewView> getReviewView(long reviewId, long accommodationId, String accommodationName, String content, String status, int pageNumber, String orderBy) {
+        Page<ReviewView> page = reviewViewRepository.findReviewBySearchParams(reviewId, accommodationId,accommodationName,content,status,PageRequest.of(pageNumber, PAGE_SIZE,Sort.by(Sort.Direction.DESC, orderBy)));
         return createJsonPageResponse(page);
     }
 

@@ -62,9 +62,10 @@ public class ReviewController {
                                                                 @RequestParam(name="accommodationName",required = false) String accommodationName,
                                                                 @RequestParam(name="content",required = false) String content,
                                                                 @RequestParam(name="status",required = false) String status,
-                                                                @RequestParam(name="page",required = false,defaultValue = "0") int page)
+                                                                @RequestParam(name="page",required = false,defaultValue = "0") int page,
+                                                                @RequestParam(name="orderBy", required = false, defaultValue = "id") String orderBy)
     {
-        JsonPageResponse<ReviewView> reviewUserList=reviewDao.getReviewView(reviewId,accommodationId,accommodationName,content,status,page);
+        JsonPageResponse<ReviewView> reviewUserList=reviewDao.getReviewView(reviewId,accommodationId,accommodationName,content,status,page,orderBy);
         if(reviewUserList!=null)
         return new ResponseEntity<>(reviewUserList, HttpStatus.OK);
         else
