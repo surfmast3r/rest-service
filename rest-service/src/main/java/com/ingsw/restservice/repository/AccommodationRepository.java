@@ -95,6 +95,26 @@ public interface AccommodationRepository extends CrudRepository<Accommodation, L
 			"       accommodation.description LIKE CONCAT('%',:generic,'%') )AND" +
 			"				accommodation.subCategory=:subcategory  ")
 	Page<Accommodation> findAccommodationByGenericAndSubCategory(@Param("generic")String generic,@Param("subcategory")String subcategory,Pageable limit);
+
+	/*@Query(" SELECT a FROM Accommodation a WHERE ((a.id=:accommodationId OR :accommodationId=-1)" +
+			"AND (accommodation.name LIKE CONCAT('%',:generic,'%') OR :generic is null)" +
+			"AND (accommodation.description LIKE CONCAT('%',:generic,'%') OR :generic is null)" +
+			"AND (accommodation.city LIKE CONCAT('%',:generic,'%') OR :generic is null)" +
+			"AND (accommodation.category=:category OR :category is null)" +
+			"AND (a.subcategory=:subcategory OR :subcategory is null)"+
+			"AND (accommodation.latitude<=:category OR :category is null)" +
+			"AND ((POWER((:latitude - a.latitude),2) + POWER((:longitude - a.longitude),2)) <  0.13 OR (:latitude is null AND :longitude is null) ))")
+	Page<Accommodation> findAccommodationBySearchParams(
+			@Param("accommodationId") long id,
+			@Param("name") String name,
+			@Param("generic")String generic,
+			@Param("category")String category,
+			@Param("subcategory")String subcategory,
+			@Param("latitude")Double latitude,
+			@Param("longitude")Double longitude,
+			Pageable limit
+	);*/
+
 }
 
 

@@ -39,13 +39,26 @@ public class AccommodationController {
 													@RequestParam(name= "subCategory",required = false, defaultValue = "") String subCategory,
 													@RequestParam(name= "orderBy",required = false, defaultValue = "id") String orderBy,
 													@RequestParam(name= "direction",required = false, defaultValue = "DESC") String direction,
+													@RequestParam(name= "latitude",required = false, defaultValue = "") String latitude,
+													@RequestParam(name= "longitude",required = false, defaultValue = "") String longitude,
 													@RequestParam(name= "page",required = false, defaultValue = "0") int page) {
 
 		JsonPageResponse<Accommodation>accommodationList;
+		SearchParamsAccommodation params = new SearchParamsAccommodation.Builder()
+				.setCurrentSearchString(query)
+				.setCurrentCategory(category)
+				.setCurrentSubCategory(subCategory)
+				.setOrderBy(orderBy)
+				.setDirection(direction)
+				.setLatitude(latitude)
+				.setLongitude(longitude)
+				.setCurrentPage(page)
+				.create();
 		if(direction.equals("ASC"))
-				accommodationList= acDao.getAccommodations(query,category,subCategory,page,orderBy, Sort.Direction.ASC);
+			accommodationList = acDao.getAccommodations(params, Sort.Direction.ASC);
+
 		else
-			accommodationList= acDao.getAccommodations(query,category,subCategory,page,orderBy, Sort.Direction.DESC);
+			accommodationList= acDao.getAccommodations(params, Sort.Direction.DESC);
 
 		if(accommodationList!=null)
 			return new ResponseEntity<>(accommodationList, HttpStatus.OK);
