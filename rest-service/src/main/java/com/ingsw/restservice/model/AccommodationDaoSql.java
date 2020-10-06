@@ -16,12 +16,6 @@ public class AccommodationDaoSql implements AccommodationDao {
 	
 	@Autowired
     private AccommodationRepository repository;
-
-	@Override
-	public JsonPageResponse getAccommodationByCityPageable(String city, int pageNumber) {
-		Page<Accommodation> page=repository.findAllAccommodationByCityPageable(city,PageRequest.of(pageNumber,50));
-		return createJsonPageResponse(page );
-	}
 	@Override
 	public Accommodation getAccommodationById(long id) {
 		return repository.findAccommodationById(id);
@@ -54,27 +48,26 @@ public class AccommodationDaoSql implements AccommodationDao {
 	}
 	@Override
 	public JsonPageResponse<Accommodation> getAccommodations(SearchParamsAccommodation params, Sort.Direction direction) {
-		Page<Accommodation> page=null;
-		System.out.println("ECCOLI:"+params.getOrderBy()+direction);
-		if(!params.getCurrentSubCategory().equals(""))
-		{
-			if(params.getCurrentSearchString().length()>3)
-				page=repository.findAccommodationByGenericAndSubCategory(params.getCurrentSearchString(),
-																		params.getCurrentSubCategory(),
-																		PageRequest.of(params.getCurrentPage(),10,Sort.by(direction, params.getOrderBy())));
-			else
-				page=repository.findAccommodationBySubCategory(params.getCurrentSubCategory(),PageRequest.of(params.getCurrentPage(),10,Sort.by(direction, params.getOrderBy())));
+		Page<Accommodation> page;
+
+		if(params.getCurrentSearchString().length()<3){
+			params.setCurrentSearchString(null);
 		}
-		else
-			if (!params.getCurrentCategory().equals(""))
-			{
-				if (params.getCurrentSearchString().length() > 3)
-					page = repository.findAccommodationByGenericAndCategory(params.getCurrentSearchString(), params.getCurrentCategory(), PageRequest.of(params.getCurrentPage(), 10, Sort.by(direction, params.getOrderBy())));
-				else
-					page = repository.findAccommodationByCategory(params.getCurrentCategory(), PageRequest.of(params.getCurrentPage(), 10, Sort.by(direction, params.getOrderBy())));
-			}
-			else
-				page = repository.findAccommodationByGeneric(params.getCurrentSearchString(), PageRequest.of(params.getCurrentPage(), 10, Sort.by(direction, params.getOrderBy())));
+
+		if (params.getCurrentCategory().length()==0){
+			params.setCurrentCategory(null);
+		}
+		if (params.getCurrentSubCategory().length()==0){
+			params.setCurrentSubCategory(null);
+		}
+		page= repository.findAccommodationBySearchParams(params.getCurrentSearchString(),
+				params.getCurrentCategory(),
+				params.getCurrentSubCategory(),
+				params.getLatitude(),
+				params.getLongitude(),
+				params.getMinRating(),
+				params.getMaxRating(),
+				PageRequest.of(params.getCurrentPage(), 10, Sort.by(direction, params.getOrderBy())));
 
 		return createJsonPageResponse(page );
 

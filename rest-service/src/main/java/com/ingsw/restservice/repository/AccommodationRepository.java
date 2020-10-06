@@ -49,71 +49,31 @@ public interface AccommodationRepository extends CrudRepository<Accommodation, L
 					 @Param("images") String images);
 
 
-	@Query("SELECT a " +
-			"FROM Accommodation a ")
-	Page<Accommodation> findAccommodationOrderByRating(Pageable limit);
 
-
-	@Query(" SELECT a" +
-			" FROM Accommodation a" +
-			" WHERE a.category=:category")
-	Page<Accommodation>findAccommodationByCategory(@Param("category") String category,Pageable limit);
-
-	@Query(" SELECT a" +
-			" FROM Accommodation a" +
-			" WHERE a.subCategory=:subcategory" )
-	Page<Accommodation>findAccommodationBySubCategory(@Param("subcategory") String subcategory,Pageable limit);
-
-	@Query("SELECT accommodation FROM Accommodation accommodation WHERE accommodation.city LIKE CONCAT('%',:city,'%')")
-	Page<Accommodation> findAllAccommodationByCityPageable(String city, Pageable limit);
 
 	@Query("SELECT accommodation FROM Accommodation accommodation WHERE accommodation.id = ?1")
 	Accommodation findAccommodationById(long id);
 
-	@Query("SELECT accommodation FROM Accommodation accommodation WHERE accommodation.name LIKE CONCAT('%',:name,'%')")
-	Page<Accommodation> findAccommodationByName(@Param("name") String name,Pageable limit);
 
-	@Query("  SELECT accommodation " +
-			" FROM Accommodation accommodation " +
-			" WHERE accommodation.name LIKE CONCAT('%',:generic,'%') OR" +
-			" 		accommodation.city LIKE CONCAT('%',:generic,'%') OR" +
-			"       accommodation.description LIKE CONCAT('%',:generic,'%') ")
-	Page<Accommodation> findAccommodationByGeneric(@Param("generic") String generic,Pageable limit);
-
-	@Query("  SELECT accommodation " +
-			" FROM Accommodation accommodation " +
-			" WHERE (accommodation.name LIKE CONCAT('%',:generic,'%') OR" +
-			" 		accommodation.city LIKE CONCAT('%',:generic,'%') OR" +
-			"       accommodation.description LIKE CONCAT('%',:generic,'%') )AND" +
-			"				accommodation.category=:category  ")
-	Page<Accommodation> findAccommodationByGenericAndCategory(@Param("generic")String generic,@Param("category")String category,Pageable limit);
-
-	@Query("  SELECT accommodation " +
-			" FROM Accommodation accommodation " +
-			" WHERE (accommodation.name LIKE CONCAT('%',:generic,'%') OR" +
-			" 		accommodation.city LIKE CONCAT('%',:generic,'%') OR" +
-			"       accommodation.description LIKE CONCAT('%',:generic,'%') )AND" +
-			"				accommodation.subCategory=:subcategory  ")
-	Page<Accommodation> findAccommodationByGenericAndSubCategory(@Param("generic")String generic,@Param("subcategory")String subcategory,Pageable limit);
-
-	/*@Query(" SELECT a FROM Accommodation a WHERE ((a.id=:accommodationId OR :accommodationId=-1)" +
-			"AND (accommodation.name LIKE CONCAT('%',:generic,'%') OR :generic is null)" +
+	@Query(" SELECT accommodation FROM Accommodation accommodation WHERE (" +
+			"(accommodation.name LIKE CONCAT('%',:generic,'%') OR :generic is null)" +
 			"AND (accommodation.description LIKE CONCAT('%',:generic,'%') OR :generic is null)" +
 			"AND (accommodation.city LIKE CONCAT('%',:generic,'%') OR :generic is null)" +
 			"AND (accommodation.category=:category OR :category is null)" +
-			"AND (a.subcategory=:subcategory OR :subcategory is null)"+
-			"AND (accommodation.latitude<=:category OR :category is null)" +
-			"AND ((POWER((:latitude - a.latitude),2) + POWER((:longitude - a.longitude),2)) <  0.13 OR (:latitude is null AND :longitude is null) ))")
+			"AND (accommodation.subCategory=:subCategory OR :subCategory is null)"+
+			"AND (accommodation.rating>=:minRating AND accommodation.rating <= :maxRating)"+
+			"AND (((POWER((:latitude - accommodation.latitude),2) + POWER((:longitude - accommodation.longitude),2)) <  0.13) " +
+			"OR (:latitude =-200 AND :longitude =-200) ))")
 	Page<Accommodation> findAccommodationBySearchParams(
-			@Param("accommodationId") long id,
-			@Param("name") String name,
 			@Param("generic")String generic,
 			@Param("category")String category,
-			@Param("subcategory")String subcategory,
+			@Param("subCategory")String subCategory,
 			@Param("latitude")Double latitude,
 			@Param("longitude")Double longitude,
+			@Param("minRating")float minRating,
+			@Param("maxRating")float maxRating,
 			Pageable limit
-	);*/
+	);
 
 }
 

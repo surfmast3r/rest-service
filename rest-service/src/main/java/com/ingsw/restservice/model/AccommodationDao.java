@@ -12,6 +12,6 @@ public interface AccommodationDao {
 	boolean editAccommodation(Accommodation accommodation);
 	boolean deleteAccommodation(long accommodationId);
 	JsonPageResponse<Accommodation> getAccommodations(SearchParamsAccommodation params, Sort.Direction direction);
-	JsonPageResponse<Accommodation> getAccommodationByCityPageable(String city, int page);
+
 
 }

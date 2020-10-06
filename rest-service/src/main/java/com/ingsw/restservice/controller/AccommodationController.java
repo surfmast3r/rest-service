@@ -35,13 +35,16 @@ public class AccommodationController {
 	@RequestMapping(method = RequestMethod.GET, value="/accommodation")
 	@ResponseBody	
 	public ResponseEntity<Object> getAccommodations(@RequestParam(name= "query",required = false, defaultValue = "") String query,
-													@RequestParam(name= "category",required = false, defaultValue = "") String category,
-													@RequestParam(name= "subCategory",required = false, defaultValue = "") String subCategory,
+													@RequestParam(name= "category",required = false ,defaultValue = "") String category,
+													@RequestParam(name= "subCategory",required = false ,defaultValue = "") String subCategory,
 													@RequestParam(name= "orderBy",required = false, defaultValue = "id") String orderBy,
 													@RequestParam(name= "direction",required = false, defaultValue = "DESC") String direction,
-													@RequestParam(name= "latitude",required = false, defaultValue = "") String latitude,
-													@RequestParam(name= "longitude",required = false, defaultValue = "") String longitude,
+													@RequestParam(name= "latitude",required = false, defaultValue = "-200") Double latitude,
+													@RequestParam(name= "longitude",required = false, defaultValue = "-200") Double longitude,
+													@RequestParam(name= "minRating",required = false, defaultValue = "0") float minRating,
+													@RequestParam(name= "maxRating",required = false, defaultValue = "5") float maxRating,
 													@RequestParam(name= "page",required = false, defaultValue = "0") int page) {
+
 
 		JsonPageResponse<Accommodation>accommodationList;
 		SearchParamsAccommodation params = new SearchParamsAccommodation.Builder()
@@ -52,6 +55,8 @@ public class AccommodationController {
 				.setDirection(direction)
 				.setLatitude(latitude)
 				.setLongitude(longitude)
+				.setMinRating(minRating)
+				.setMaxRating(maxRating)
 				.setCurrentPage(page)
 				.create();
 		if(direction.equals("ASC"))

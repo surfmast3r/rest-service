@@ -2,10 +2,11 @@ package com.ingsw.restservice.model;
 
 public class SearchParamsAccommodation {
 
+    private Float minRating,maxRating;
     private String currentSearchString,currentCategory,currentSubCategory;
     private String orderBy;
     private String direction;
-    private String latitude,longitude;
+    private Double latitude,longitude;
     int currentPage;
 
     public SearchParamsAccommodation(Builder builder) {
@@ -17,13 +18,16 @@ public class SearchParamsAccommodation {
         this.orderBy=builder.orderBy;
         this.latitude=builder.latitude;
         this.longitude=builder.longitude;
+        this.minRating=builder.minRating;
+        this.maxRating=builder.maxRating;
     }
 
     public static class Builder {
         private String currentSearchString="",currentCategory="",currentSubCategory="";
         private String orderBy="id";
         private String direction="DESC";
-        private String latitude,longitude;
+        private Double latitude=  -200.0,longitude =  -200.0;
+        private Float minRating=  0.0f, maxRating= 5.0f;
         int currentPage =0;
 
         public Builder setCurrentSearchString(String currentSearchParam) {
@@ -54,12 +58,20 @@ public class SearchParamsAccommodation {
             return this;
         }
 
-        public Builder setLatitude(String latitude) {
+        public Builder setLatitude(Double latitude) {
             this.latitude = latitude;
             return this;
         }
-        public Builder setLongitude(String longitude) {
+        public Builder setLongitude(Double longitude) {
             this.longitude = longitude;
+            return this;
+        }
+        public Builder setMinRating(Float minRating) {
+            this.minRating = minRating;
+            return this;
+        }
+        public Builder setMaxRating(Float maxRating) {
+            this.maxRating = maxRating;
             return this;
         }
 
@@ -68,6 +80,11 @@ public class SearchParamsAccommodation {
         }
 
     }
+
+
+    public Double getLatitude() { return latitude; }
+
+    public Double getLongitude() { return longitude; }
 
     public String getCurrentSearchString() {
         return currentSearchString;
@@ -93,6 +110,43 @@ public class SearchParamsAccommodation {
         return direction;
     }
 
+    public Float getMinRating() {
+        return minRating;
+    }
 
+    public Float getMaxRating() {
+        return maxRating;
+    }
 
+    public void setCurrentSearchString(String currentSearchString) {
+        this.currentSearchString = currentSearchString;
+    }
+
+    public void setCurrentCategory(String currentCategory) {
+        this.currentCategory = currentCategory;
+    }
+
+    public void setCurrentSubCategory(String currentSubCategory) {
+        this.currentSubCategory = currentSubCategory;
+    }
+
+    public void setOrderBy(String orderBy) {
+        this.orderBy = orderBy;
+    }
+
+    public void setDirection(String direction) {
+        this.direction = direction;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
+    }
 }
