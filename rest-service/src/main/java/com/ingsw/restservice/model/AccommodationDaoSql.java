@@ -1,7 +1,5 @@
 package com.ingsw.restservice.model;
 
-import java.util.List;
-
 import com.ingsw.restservice.model.DTO.JsonPageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,7 +11,8 @@ import com.ingsw.restservice.repository.AccommodationRepository;
 
 @Service
 public class AccommodationDaoSql implements AccommodationDao {
-	
+
+	private static final int PAGE_SIZE =10;
 	@Autowired
     private AccommodationRepository repository;
 	@Override
@@ -50,24 +49,31 @@ public class AccommodationDaoSql implements AccommodationDao {
 	public JsonPageResponse<Accommodation> getAccommodations(SearchParamsAccommodation params, Sort.Direction direction) {
 		Page<Accommodation> page;
 
-		if(params.getCurrentSearchString().length()<3){
-			params.setCurrentSearchString(null);
+		if(params.getCurrentName().length()<3){
+			params.setCurrentName(null);
 		}
 
+		if (params.getCurrentCity().length()==0){
+			params.setCurrentCity(null);
+		}
 		if (params.getCurrentCategory().length()==0){
 			params.setCurrentCategory(null);
 		}
 		if (params.getCurrentSubCategory().length()==0){
 			params.setCurrentSubCategory(null);
 		}
-		page= repository.findAccommodationBySearchParams(params.getCurrentSearchString(),
+		System.out.println("QUERY STRING "+params.getCurrentName());
+		page= repository.findAccommodationBySearchParams(
+				params.getCurrentName(),
+				params.getCurrentDescription(),
+				params.getCurrentCity(),
 				params.getCurrentCategory(),
 				params.getCurrentSubCategory(),
 				params.getLatitude(),
 				params.getLongitude(),
 				params.getMinRating(),
 				params.getMaxRating(),
-				PageRequest.of(params.getCurrentPage(), 10, Sort.by(direction, params.getOrderBy())));
+				PageRequest.of(params.getCurrentPage(), PAGE_SIZE, Sort.by(direction, params.getOrderBy())));
 
 		return createJsonPageResponse(page );
 
@@ -76,8 +82,19 @@ public class AccommodationDaoSql implements AccommodationDao {
 	}
 
 	@Override
-	public JsonPageResponse getAccommodationByCityPageable(String city, int pageNumber) {
-		Page<Accommodation> page=repository.findAllAccommodationByCityPageable(city,PageRequest.of(pageNumber,50));
+	public JsonPageResponse getAccommodationByGenericString(SearchParamsAccommodation params, Sort.Direction direction) {
+
+		if (params.getCurrentCategory().length()==0){
+			params.setCurrentCategory(null);
+		}
+		if (params.getCurrentSubCategory().length()==0){
+			params.setCurrentSubCategory(null);
+		}
+		Page<Accommodation> page=repository.findAccommodationByGenericString(
+				params.getCurrentDescription(),
+				params.getCurrentCategory(),
+				params.getCurrentSubCategory(),
+				PageRequest.of(params.getCurrentPage(),PAGE_SIZE, Sort.by(direction, params.getOrderBy())));
 		return createJsonPageResponse(page );
 	}
 

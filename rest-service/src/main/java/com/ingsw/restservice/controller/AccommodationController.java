@@ -34,7 +34,9 @@ public class AccommodationController {
 
 	@RequestMapping(method = RequestMethod.GET, value="/accommodation")
 	@ResponseBody	
-	public ResponseEntity<Object> getAccommodations(@RequestParam(name= "query",required = false, defaultValue = "") String query,
+	public ResponseEntity<Object> getAccommodations(@RequestParam(name= "name",required = false, defaultValue = "") String name,
+													@RequestParam(name= "city",required = false, defaultValue = "") String city,
+													@RequestParam(name= "description",required = false, defaultValue = "") String description,
 													@RequestParam(name= "category",required = false ,defaultValue = "") String category,
 													@RequestParam(name= "subCategory",required = false ,defaultValue = "") String subCategory,
 													@RequestParam(name= "orderBy",required = false, defaultValue = "id") String orderBy,
@@ -48,7 +50,9 @@ public class AccommodationController {
 
 		JsonPageResponse<Accommodation>accommodationList;
 		SearchParamsAccommodation params = new SearchParamsAccommodation.Builder()
-				.setCurrentSearchString(query)
+				.setCurrentName(name)
+				.setCurrentDescription(description)
+				.setCurrentCity(city)
 				.setCurrentCategory(category)
 				.setCurrentSubCategory(subCategory)
 				.setOrderBy(orderBy)
@@ -71,7 +75,36 @@ public class AccommodationController {
 			return new ResponseEntity<>(new JsonResponse(false,"Strutture non trovate"), HttpStatus.BAD_REQUEST);
 
 	}
-	
+
+	@RequestMapping(method = RequestMethod.GET, value="/accommodation_generic")
+	@ResponseBody
+	public ResponseEntity<Object> getAccommodationByCity(@RequestParam ( name= "query",required = false ,defaultValue = "") String query,
+														 @RequestParam(name= "category",required = false ,defaultValue = "") String category,
+														 @RequestParam(name= "subCategory",required = false ,defaultValue = "") String subCategory,
+														 @RequestParam(name= "direction",required = false, defaultValue = "DESC") String direction,
+														 @RequestParam(name= "orderBy",required = false, defaultValue = "id") String orderBy,
+														 @RequestParam(name= "page",required = false, defaultValue = "0") int page) {
+
+		JsonPageResponse<Accommodation>accommodationList;
+		SearchParamsAccommodation params = new SearchParamsAccommodation.Builder()
+				.setCurrentDescription(query)
+				.setCurrentCategory(category)
+				.setCurrentSubCategory(subCategory)
+				.setOrderBy(orderBy)
+				.setCurrentPage(page)
+				.create();
+
+		if(direction.equals("ASC"))
+			accommodationList=acDao.getAccommodationByGenericString(params, Sort.Direction.ASC);
+
+		else
+			accommodationList=acDao.getAccommodationByGenericString(params, Sort.Direction.DESC);
+
+		if(accommodationList!=null)
+			return new ResponseEntity<>(accommodationList, HttpStatus.OK);
+		else
+			return new ResponseEntity<>(new EmptyJsonResponse(), HttpStatus.OK);
+	}
 
 	@RequestMapping(method = RequestMethod.GET, value="/accommodation",params ="accommodationId")
 	@ResponseBody	

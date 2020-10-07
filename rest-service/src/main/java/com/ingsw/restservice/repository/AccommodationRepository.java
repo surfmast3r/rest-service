@@ -56,16 +56,18 @@ public interface AccommodationRepository extends CrudRepository<Accommodation, L
 
 
 	@Query(" SELECT accommodation FROM Accommodation accommodation WHERE (" +
-			"(accommodation.name LIKE CONCAT('%',:generic,'%') OR :generic is null)" +
-			"AND (accommodation.description LIKE CONCAT('%',:generic,'%') OR :generic is null)" +
-			"AND (accommodation.city LIKE CONCAT('%',:generic,'%') OR :generic is null)" +
+			"(accommodation.name LIKE CONCAT('%',:name,'%') OR :name is null)" +
+			"AND (accommodation.description LIKE CONCAT('%',:description,'%') OR :description is null)" +
+			"AND (accommodation.city LIKE CONCAT('%',:city,'%') OR :city is null)" +
 			"AND (accommodation.category=:category OR :category is null)" +
 			"AND (accommodation.subCategory=:subCategory OR :subCategory is null)"+
 			"AND (accommodation.rating>=:minRating AND accommodation.rating <= :maxRating)"+
 			"AND (((POWER((:latitude - accommodation.latitude),2) + POWER((:longitude - accommodation.longitude),2)) <  0.13) " +
 			"OR (:latitude =-200 AND :longitude =-200) ))")
 	Page<Accommodation> findAccommodationBySearchParams(
-			@Param("generic")String generic,
+			@Param("name")String name,
+			@Param("description")String description,
+			@Param("city")String city,
 			@Param("category")String category,
 			@Param("subCategory")String subCategory,
 			@Param("latitude")Double latitude,
@@ -75,8 +77,20 @@ public interface AccommodationRepository extends CrudRepository<Accommodation, L
 			Pageable limit
 	);
 
-	@Query("SELECT accommodation FROM Accommodation accommodation WHERE accommodation.city LIKE CONCAT('%',:city,'%')")
-	Page<Accommodation> findAllAccommodationByCityPageable(String city, Pageable limit);
+	@Query(" SELECT accommodation FROM Accommodation accommodation WHERE (" +
+			"(accommodation.category=:category OR :category is null)" +
+			"AND (accommodation.subCategory=:subCategory OR :subCategory is null)"+
+			"AND (accommodation.description LIKE CONCAT('%',:genericString,'%') OR " +
+				" accommodation.city LIKE CONCAT('%',:genericString,'%') OR" +
+				" accommodation.name LIKE CONCAT('%',:genericString,'%') OR" +
+				" :genericString is null))")
+	Page<Accommodation> findAccommodationByGenericString(
+			@Param("genericString")String genericSring,
+			@Param("category")String category,
+			@Param("subCategory")String subCategory,
+
+			Pageable limit
+	);
 
 }
 

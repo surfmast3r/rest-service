@@ -3,35 +3,41 @@ package com.ingsw.restservice.model;
 public class SearchParamsAccommodation {
 
     private Float minRating,maxRating;
-    private String currentSearchString,currentCategory,currentSubCategory;
+    private String currentName,currentCategory,currentSubCategory,currentDescription;
     private String orderBy;
     private String direction;
     private Double latitude,longitude;
+    private String currentCity;
     int currentPage;
 
     public SearchParamsAccommodation(Builder builder) {
         this.currentCategory=builder.currentCategory;
         this.currentPage =builder.currentPage;
         this.currentSubCategory=builder.currentSubCategory;
-        this.currentSearchString=builder.currentSearchString;
+        this.currentName =builder.currentName;
         this.direction=builder.direction;
         this.orderBy=builder.orderBy;
         this.latitude=builder.latitude;
         this.longitude=builder.longitude;
         this.minRating=builder.minRating;
         this.maxRating=builder.maxRating;
+        this.currentCity=builder.currentCity;
+        this.currentDescription=builder.currentDescription;
     }
 
+
+
     public static class Builder {
-        private String currentSearchString="",currentCategory="",currentSubCategory="";
+        private String currentName ="",currentCategory="",currentSubCategory="",currentDescription="";
+        private String currentCity="";
         private String orderBy="id";
         private String direction="DESC";
         private Double latitude=  -200.0,longitude =  -200.0;
         private Float minRating=  0.0f, maxRating= 5.0f;
         int currentPage =0;
 
-        public Builder setCurrentSearchString(String currentSearchParam) {
-            this.currentSearchString = currentSearchParam;
+        public Builder setCurrentName(String currentSearchParam) {
+            this.currentName = currentSearchParam;
             return this;
         }
 
@@ -40,8 +46,18 @@ public class SearchParamsAccommodation {
             return this;
         }
 
+        public Builder setCurrentDescription(String currentDescription) {
+            this.currentDescription = currentDescription;
+            return this;
+        }
+
         public Builder setCurrentSubCategory(String currentSubCategory) {
             this.currentSubCategory = currentSubCategory;
+            return this;
+        }
+
+        public Builder setCurrentCity(String currentCity) {
+            this.currentCity = currentCity;
             return this;
         }
 
@@ -81,13 +97,21 @@ public class SearchParamsAccommodation {
 
     }
 
+    public String getCurrentCity() {
+        return currentCity;
+    }
+
+    public String getCurrentDescription() {
+        return currentDescription;
+    }
+
 
     public Double getLatitude() { return latitude; }
 
     public Double getLongitude() { return longitude; }
 
-    public String getCurrentSearchString() {
-        return currentSearchString;
+    public String getCurrentName() {
+        return currentName;
     }
 
     public String getCurrentCategory() {
@@ -118,8 +142,8 @@ public class SearchParamsAccommodation {
         return maxRating;
     }
 
-    public void setCurrentSearchString(String currentSearchString) {
-        this.currentSearchString = currentSearchString;
+    public void setCurrentName(String currentName) {
+        this.currentName = currentName;
     }
 
     public void setCurrentCategory(String currentCategory) {
@@ -149,4 +173,13 @@ public class SearchParamsAccommodation {
     public void setCurrentPage(int currentPage) {
         this.currentPage = currentPage;
     }
+
+    public void setCurrentCity(String city) {
+        currentCity=city;
+    }
+
+    public void setCurrentDescription(String currentDescription) {
+        this.currentDescription = currentDescription;
+    }
+
 }
