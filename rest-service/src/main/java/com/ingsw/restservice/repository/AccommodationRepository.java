@@ -75,6 +75,9 @@ public interface AccommodationRepository extends CrudRepository<Accommodation, L
 			Pageable limit
 	);
 
+	@Query("SELECT accommodation FROM Accommodation accommodation WHERE accommodation.city LIKE CONCAT('%',:city,'%')")
+	Page<Accommodation> findAllAccommodationByCityPageable(String city, Pageable limit);
+
 }
 
 

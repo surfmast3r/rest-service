@@ -75,6 +75,11 @@ public class AccommodationDaoSql implements AccommodationDao {
 
 	}
 
+	@Override
+	public JsonPageResponse getAccommodationByCityPageable(String city, int pageNumber) {
+		Page<Accommodation> page=repository.findAllAccommodationByCityPageable(city,PageRequest.of(pageNumber,50));
+		return createJsonPageResponse(page );
+	}
 
 	private JsonPageResponse<Accommodation> createJsonPageResponse(Page<Accommodation> page){
 		JsonPageResponse<Accommodation> jsonPageResponse= new JsonPageResponse<>();
