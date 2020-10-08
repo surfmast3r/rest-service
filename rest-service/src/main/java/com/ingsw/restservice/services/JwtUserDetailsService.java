@@ -52,6 +52,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 		newUser.setCognome(user.getCognome());
 		newUser.setPwd(bcryptEncoder.encode(user.getPwd()));
 		newUser.setUserRole("ROLE_USER");
+		newUser.setShowNickname(true);
 		return userRepo.save(newUser);
 	}
 }
