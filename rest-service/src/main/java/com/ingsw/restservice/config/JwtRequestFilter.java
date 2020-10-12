@@ -15,7 +15,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.ingsw.restservice.services.JwtUserDetailsService;
+import com.ingsw.restservice.model.UserDaoSql;
 
 import io.jsonwebtoken.ExpiredJwtException;
 
@@ -24,7 +24,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 	
 	
 	@Autowired
-	private JwtUserDetailsService jwtUserDetailsService;
+	private UserDaoSql jwtUserDetailsService;
 	
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;

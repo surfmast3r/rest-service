@@ -17,14 +17,12 @@ import com.ingsw.restservice.config.JwtTokenUtil;
 import com.ingsw.restservice.model.DTO.JwtRequest;
 import com.ingsw.restservice.model.DTO.JwtResponse;
 import com.ingsw.restservice.model.Users;
-import com.ingsw.restservice.services.JwtUserDetailsService;
+import com.ingsw.restservice.model.UserDaoSql;
 
 @RestController
 @CrossOrigin
-public class JwtAuthenticationController {
+public class UserController {
 
-	
-		
 	@Autowired
 	private AuthenticationManager authenticationManager;
 	
@@ -32,7 +30,7 @@ public class JwtAuthenticationController {
 	private JwtTokenUtil jwtTokenUtil;
 	
 	@Autowired
-	private JwtUserDetailsService userDetailsService;
+	private UserDaoSql userDetailsService;
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ResponseEntity<?> saveUser(@RequestBody Users user) throws Exception {

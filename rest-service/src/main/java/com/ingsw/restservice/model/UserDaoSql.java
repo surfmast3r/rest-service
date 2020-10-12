@@ -1,27 +1,21 @@
-package com.ingsw.restservice.services;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
+package com.ingsw.restservice.model;
 
 import com.ingsw.restservice.config.UserRolesCV;
 import com.ingsw.restservice.model.Users;
 import com.ingsw.restservice.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
-public class JwtUserDetailsService implements UserDetailsService {
+public class UserDaoSql implements UserDetailsService {
 
 	@Autowired
 	UserRepository userRepo;
@@ -36,8 +30,6 @@ public class JwtUserDetailsService implements UserDetailsService {
 		roles.add(new UserRolesCV(user.getUserRole()));
 		
 		if (user.getNickname().equals(username)) {
-			
-			//return new User("surfmaster", "$2a$10$ZB6QrN75V1jimXE/DmwudebDvJBpQvxAGcMA094EL.4Xuea0TpxDi",new ArrayList<>());
 			return new User(user.getNickname(),user.getPwd(),roles);
 		} else {
 			throw new UsernameNotFoundException("User not found with username: " + username);
