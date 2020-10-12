@@ -13,6 +13,7 @@ public interface AccommodationDao {
 	boolean deleteAccommodation(long accommodationId);
 	JsonPageResponse<Accommodation> getAccommodations(SearchParamsAccommodation params, Sort.Direction direction);
 	JsonPageResponse<Accommodation> getAccommodationByGenericString(SearchParamsAccommodation params, Sort.Direction direction);
+	List<Accommodation> getAccommodationByCoordinates(String category, Double latitude, Double longitude);
 
 
 }

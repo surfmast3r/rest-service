@@ -85,31 +85,22 @@ public interface AccommodationRepository extends CrudRepository<Accommodation, L
 				" accommodation.name LIKE CONCAT('%',:genericString,'%') OR" +
 				" :genericString is null))")
 	Page<Accommodation> findAccommodationByGenericString(
-			@Param("genericString")String genericSring,
+			@Param("genericString")String genericString,
 			@Param("category")String category,
 			@Param("subCategory")String subCategory,
 
 			Pageable limit
 	);
 
+	@Query(" SELECT accommodation FROM Accommodation accommodation WHERE (" +
+			"(accommodation.category=:category OR :category is null)" +
+			"AND (((POWER((:latitude - accommodation.latitude),2) + POWER((:longitude - accommodation.longitude),2)) <  0.13) " +
+			"OR (:latitude =-200 AND :longitude =-200) ))")
+	List<Accommodation> findAccommodationByCoordinates(
+			@Param("category")String category,
+			@Param("latitude")Double latitude,
+			@Param("longitude")Double longitude
+	);
+
+
 }
-
-
-
-
-/*@Query("INSERT INTO Accommodation (id,description,name,logourl,latitude,longitude,city,address,rating,category,subCategory,images)" +
-			" VALUES(:id,:description,:name,:logourl,:latitude,:longitude,:city,:address,:rating,:category,:subCategory,:images) ")
-	void createAccommodation(	@Param("id") long id,
-								@Param("description") String description,
-								@Param("name") String name,
-								@Param("logourl") String logourl,
-								@Param("latitude") Double latitude,
-								@Param("longitude") Double longitude,
-								@Param("city") String city,
-								@Param("address") String address,
-								@Param("rating") Float rating,
-								@Param("category") String category,
-								@Param("subCategory") String subCategory,
-								@Param("images") String images);
-
-	 */

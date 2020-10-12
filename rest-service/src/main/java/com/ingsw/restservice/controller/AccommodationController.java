@@ -18,37 +18,39 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ingsw.restservice.model.*;
 
+import java.util.List;
+
 @RestController
 public class AccommodationController {
 
 	@Autowired
 	@Qualifier("accommodationDaoSql")
 	private AccommodationDao acDao;
-	
+
 	@RequestMapping(value = "/")
 	@ResponseBody
 	public ResponseEntity<Object> welcomeMessage() {
 		return new ResponseEntity<>("CoVi19 up and running!!!", HttpStatus.OK);
-   }
+	}
 
 
-	@RequestMapping(method = RequestMethod.GET, value="/accommodation")
-	@ResponseBody	
-	public ResponseEntity<Object> getAccommodations(@RequestParam(name= "name",required = false, defaultValue = "") String name,
-													@RequestParam(name= "city",required = false, defaultValue = "") String city,
-													@RequestParam(name= "description",required = false, defaultValue = "") String description,
-													@RequestParam(name= "category",required = false ,defaultValue = "") String category,
-													@RequestParam(name= "subCategory",required = false ,defaultValue = "") String subCategory,
-													@RequestParam(name= "orderBy",required = false, defaultValue = "id") String orderBy,
-													@RequestParam(name= "direction",required = false, defaultValue = "DESC") String direction,
-													@RequestParam(name= "latitude",required = false, defaultValue = "-200") Double latitude,
-													@RequestParam(name= "longitude",required = false, defaultValue = "-200") Double longitude,
-													@RequestParam(name= "minRating",required = false, defaultValue = "0") float minRating,
-													@RequestParam(name= "maxRating",required = false, defaultValue = "5") float maxRating,
-													@RequestParam(name= "page",required = false, defaultValue = "0") int page) {
+	@RequestMapping(method = RequestMethod.GET, value = "/accommodation")
+	@ResponseBody
+	public ResponseEntity<Object> getAccommodations(@RequestParam(name = "name", required = false, defaultValue = "") String name,
+													@RequestParam(name = "city", required = false, defaultValue = "") String city,
+													@RequestParam(name = "description", required = false, defaultValue = "") String description,
+													@RequestParam(name = "category", required = false, defaultValue = "") String category,
+													@RequestParam(name = "subCategory", required = false, defaultValue = "") String subCategory,
+													@RequestParam(name = "orderBy", required = false, defaultValue = "id") String orderBy,
+													@RequestParam(name = "direction", required = false, defaultValue = "DESC") String direction,
+													@RequestParam(name = "latitude", required = false, defaultValue = "-200") Double latitude,
+													@RequestParam(name = "longitude", required = false, defaultValue = "-200") Double longitude,
+													@RequestParam(name = "minRating", required = false, defaultValue = "0") float minRating,
+													@RequestParam(name = "maxRating", required = false, defaultValue = "5") float maxRating,
+													@RequestParam(name = "page", required = false, defaultValue = "0") int page) {
 
 
-		JsonPageResponse<Accommodation>accommodationList;
+		JsonPageResponse<Accommodation> accommodationList;
 		SearchParamsAccommodation params = new SearchParamsAccommodation.Builder()
 				.setCurrentName(name)
 				.setCurrentDescription(description)
@@ -63,29 +65,29 @@ public class AccommodationController {
 				.setMaxRating(maxRating)
 				.setCurrentPage(page)
 				.create();
-		if(direction.equals("ASC"))
+		if (direction.equals("ASC"))
 			accommodationList = acDao.getAccommodations(params, Sort.Direction.ASC);
 
 		else
-			accommodationList= acDao.getAccommodations(params, Sort.Direction.DESC);
+			accommodationList = acDao.getAccommodations(params, Sort.Direction.DESC);
 
-		if(accommodationList!=null)
+		if (accommodationList != null)
 			return new ResponseEntity<>(accommodationList, HttpStatus.OK);
 		else
-			return new ResponseEntity<>(new JsonResponse(false,"Strutture non trovate"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(new JsonResponse(false, "Strutture non trovate"), HttpStatus.BAD_REQUEST);
 
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value="/accommodation_generic")
+	@RequestMapping(method = RequestMethod.GET, value = "/accommodation_generic")
 	@ResponseBody
-	public ResponseEntity<Object> getAccommodationByCity(@RequestParam ( name= "query",required = false ,defaultValue = "") String query,
-														 @RequestParam(name= "category",required = false ,defaultValue = "") String category,
-														 @RequestParam(name= "subCategory",required = false ,defaultValue = "") String subCategory,
-														 @RequestParam(name= "direction",required = false, defaultValue = "DESC") String direction,
-														 @RequestParam(name= "orderBy",required = false, defaultValue = "id") String orderBy,
-														 @RequestParam(name= "page",required = false, defaultValue = "0") int page) {
+	public ResponseEntity<Object> getAccommodationByCity(@RequestParam(name = "query", required = false, defaultValue = "") String query,
+														 @RequestParam(name = "category", required = false, defaultValue = "") String category,
+														 @RequestParam(name = "subCategory", required = false, defaultValue = "") String subCategory,
+														 @RequestParam(name = "direction", required = false, defaultValue = "DESC") String direction,
+														 @RequestParam(name = "orderBy", required = false, defaultValue = "id") String orderBy,
+														 @RequestParam(name = "page", required = false, defaultValue = "0") int page) {
 
-		JsonPageResponse<Accommodation>accommodationList;
+		JsonPageResponse<Accommodation> accommodationList;
 		SearchParamsAccommodation params = new SearchParamsAccommodation.Builder()
 				.setCurrentDescription(query)
 				.setCurrentCategory(category)
@@ -94,17 +96,40 @@ public class AccommodationController {
 				.setCurrentPage(page)
 				.create();
 
-		if(direction.equals("ASC"))
-			accommodationList=acDao.getAccommodationByGenericString(params, Sort.Direction.ASC);
+		if (direction.equals("ASC"))
+			accommodationList = acDao.getAccommodationByGenericString(params, Sort.Direction.ASC);
 
 		else
-			accommodationList=acDao.getAccommodationByGenericString(params, Sort.Direction.DESC);
+			accommodationList = acDao.getAccommodationByGenericString(params, Sort.Direction.DESC);
 
-		if(accommodationList!=null)
+		if (accommodationList != null)
 			return new ResponseEntity<>(accommodationList, HttpStatus.OK);
 		else
 			return new ResponseEntity<>(new EmptyJsonResponse(), HttpStatus.OK);
 	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/accommodation_map")
+	@ResponseBody
+	public ResponseEntity<Object> getAccommodationByCoordinates(@RequestParam(name = "category", required = false, defaultValue = "") String category,
+																@RequestParam(name = "latitude", required = false, defaultValue = "-200") Double latitude,
+																@RequestParam(name = "longitude", required = false, defaultValue = "-200") Double longitude)
+	{
+
+	List<Accommodation> accommodationList;
+
+	accommodationList=acDao.getAccommodationByCoordinates(category,latitude,longitude);
+
+	if (accommodationList != null)
+		return new ResponseEntity<>(accommodationList, HttpStatus.OK);
+	else
+		return new ResponseEntity<>(new EmptyJsonResponse(), HttpStatus.OK);
+
+	}
+
+
+
+
+
 
 	@RequestMapping(method = RequestMethod.GET, value="/accommodation",params ="accommodationId")
 	@ResponseBody	

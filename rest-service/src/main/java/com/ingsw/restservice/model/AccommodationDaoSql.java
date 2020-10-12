@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.ingsw.restservice.repository.AccommodationRepository;
 
+import java.util.List;
+
 @Service
 public class AccommodationDaoSql implements AccommodationDao {
 
@@ -80,9 +82,8 @@ public class AccommodationDaoSql implements AccommodationDao {
 
 
 	}
-
 	@Override
-	public JsonPageResponse getAccommodationByGenericString(SearchParamsAccommodation params, Sort.Direction direction) {
+	public JsonPageResponse<Accommodation> getAccommodationByGenericString(SearchParamsAccommodation params, Sort.Direction direction) {
 
 		if (params.getCurrentCategory().length()==0){
 			params.setCurrentCategory(null);
@@ -97,6 +98,17 @@ public class AccommodationDaoSql implements AccommodationDao {
 				PageRequest.of(params.getCurrentPage(),PAGE_SIZE, Sort.by(direction, params.getOrderBy())));
 		return createJsonPageResponse(page );
 	}
+
+	@Override
+	public List<Accommodation> getAccommodationByCoordinates(String category, Double latitude, Double longitude) {
+
+		if (category.length()==0){
+			category=null;
+		}
+		List<Accommodation> list=repository.findAccommodationByCoordinates(category, latitude, longitude);
+		return list;
+	}
+
 
 	private JsonPageResponse<Accommodation> createJsonPageResponse(Page<Accommodation> page){
 		JsonPageResponse<Accommodation> jsonPageResponse= new JsonPageResponse<>();
