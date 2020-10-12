@@ -44,7 +44,7 @@ public class UserController {
 		final UserDetails userDetails = userDetailsService
 				.loadUserByUsername(authenticationRequest.getUsername());
 		final String token = jwtTokenUtil.generateToken(userDetails);
-		return ResponseEntity.ok(new JwtResponse(token));
+		return ResponseEntity.ok(new JwtResponse(token, userDetailsService.getUserIdByNickname(authenticationRequest.getUsername())));
 	}
 	
 	private void authenticate(String username, String password) throws Exception {
