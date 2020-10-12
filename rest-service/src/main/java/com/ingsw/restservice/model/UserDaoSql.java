@@ -43,6 +43,7 @@ public class UserDaoSql implements UserDetailsService {
 		newUser.setNome(user.getNome());
 		newUser.setCognome(user.getCognome());
 		newUser.setPwd(bcryptEncoder.encode(user.getPwd()));
+		newUser.setEmail(user.getEmail());
 		newUser.setUserRole("ROLE_USER");
 		newUser.setShowNickname(true);
 		return userRepo.save(newUser);

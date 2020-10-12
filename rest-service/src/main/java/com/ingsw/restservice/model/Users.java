@@ -84,5 +84,4 @@ public class Users {
 	public void setNome(String username) {
 		this.nome = username;
 	}
-
 }
