@@ -19,7 +19,7 @@ public class Review {
     private LocalDateTime creation_date= LocalDateTime.now();
 
     public Review(){
-        //VACANTE
+
     };
     public long getId() {
         return id;
