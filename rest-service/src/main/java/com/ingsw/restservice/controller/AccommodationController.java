@@ -108,7 +108,7 @@ public class AccommodationController {
 			return new ResponseEntity<>(new EmptyJsonResponse(), HttpStatus.OK);
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/accommodation_geocode")
+	@RequestMapping(method = RequestMethod.GET, value = "/accommodation_latlong")
 	@ResponseBody
 	public ResponseEntity<Object> getAccommodationByCoordinates(@RequestParam(name = "category", required = false, defaultValue = "") String category,
 																@RequestParam(name = "latitude") Double latitude,
