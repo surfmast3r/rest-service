@@ -135,7 +135,6 @@ public class AccommodationController {
 	@ResponseBody	
 	public ResponseEntity<Object> getAccommodationById(@RequestParam int accommodationId) {
 
-		//acDao = new AccommodationDaoSql();
 		Accommodation accommodation=acDao.getAccommodationById(accommodationId);
 		if(accommodation!=null)
 			return new ResponseEntity<>(accommodation, HttpStatus.OK);

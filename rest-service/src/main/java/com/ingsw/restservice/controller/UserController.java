@@ -1,5 +1,7 @@
 package com.ingsw.restservice.controller;
 
+import com.ingsw.restservice.model.DTO.JsonResponse;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -67,7 +69,19 @@ public class UserController {
 			}
 			return new ResponseEntity<>("Unauthorized",HttpStatus.UNAUTHORIZED);
 		}
-	
+
+	@RequestMapping(value = "/setShowNickname", method = RequestMethod.PUT)
+	public ResponseEntity<Object> setShowNickname(@RequestParam int id,@RequestParam boolean value, HttpServletRequest request){
+
+		Boolean response=userDetailsService.setShowNickname(id,value);
+		if(response)
+			return new ResponseEntity(new JsonResponse(true,"ShowNickname aggiornato"),HttpStatus.ACCEPTED);
+		else
+			return new ResponseEntity(new JsonResponse(response,"User Not Found"),HttpStatus.NOT_FOUND);
+
+	}
+
+
 	private void authenticate(String username, String password) throws Exception {
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
@@ -77,5 +91,6 @@ public class UserController {
 			throw new Exception("INVALID_CREDENTIALS", e);
 		}
 	}
-	
+
+
 }

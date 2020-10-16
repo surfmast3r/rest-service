@@ -16,5 +16,8 @@ public interface UserRepository extends CrudRepository<Users, Long>{
 	@Query("SELECT user from Users user WHERE  user.id = ?1")
 	Users findUserById(int id);
 
+	@Query("UPDATE Users u SET u.showNickname = ?2 WHERE u.id = ?1")
+	Boolean setShowNickname(int id, boolean value);
+
 }
 

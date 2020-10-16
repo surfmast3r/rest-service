@@ -55,4 +55,9 @@ public class UserDaoSql implements UserDetailsService {
 		newUser.setShowNickname(true);
 		return userRepo.save(newUser);
 	}
+
+	public Boolean setShowNickname(int id, boolean value){
+		return userRepo.setShowNickname(id,value);
+	}
+
 }
