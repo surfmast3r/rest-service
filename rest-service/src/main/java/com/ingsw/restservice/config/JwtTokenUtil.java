@@ -7,6 +7,7 @@ import java.util.*;
 import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -52,11 +53,11 @@ public class JwtTokenUtil implements Serializable {
 		claims.put("roles",userDetails.getAuthorities());
 		return doGenerateToken(claims, userDetails.getUsername());
 	}
-	public ArrayList<String> getRoleFromToken(String token){
-		ArrayList<String> role;
+	public String getRoleFromToken(String token){
+		ArrayList<LinkedHashMap<String,String>> c;
 		Claims claims = getAllClaimsFromToken(token);
-		role=(ArrayList<String>)claims.get("roles");
-		return role;
+		c = (ArrayList<LinkedHashMap<String,String>>) claims.get("roles");
+		return c.get(0).get("authority");
 	}
 
 	//while creating the token -

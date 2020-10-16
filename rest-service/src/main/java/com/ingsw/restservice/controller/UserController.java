@@ -51,23 +51,19 @@ public class UserController {
 	@RequestMapping(value = "/account_details", method = RequestMethod.GET)
 	public ResponseEntity<?> getAccountDetails(@RequestParam int id, HttpServletRequest request){
 		Users u = userDetailsService.getUserById(id);
+		if (u==null) return new ResponseEntity<>("User not found",HttpStatus.NOT_FOUND);
 
 		final String requestTokenHeader = request.getHeader("Authorization");
 		String role=null;
 		String jwtToken;
 		int idRequest;
-
 		if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
 			jwtToken = requestTokenHeader.substring(7);
 			idRequest=userDetailsService.getUserIdByNickname(jwtTokenUtil.getUsernameFromToken(jwtToken));
-
-			ArrayList<String> listRole = jwtTokenUtil.getRoleFromToken(jwtToken);
-			role=listRole.get(0);
+			role=jwtTokenUtil.getRoleFromToken(jwtToken);
 			System.out.println(role);
-			if(role.equals("ADMIN") || idRequest==id)
-				if(u!=null) return new ResponseEntity<>(u, HttpStatus.OK);
-			return  new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
-
+			if(role.equals("ROLE_ADMIN") || idRequest==id)
+				return new ResponseEntity<>(u, HttpStatus.OK);
 			}
 			return new ResponseEntity<>("Unauthorized",HttpStatus.UNAUTHORIZED);
 		}
