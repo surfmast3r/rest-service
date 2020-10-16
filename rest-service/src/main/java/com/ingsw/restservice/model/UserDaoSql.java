@@ -38,6 +38,10 @@ public class UserDaoSql implements UserDetailsService {
 	public Integer getUserIdByNickname(String nickname){
 		return userRepo.findUserByNickname(nickname).getId();
 	}
+
+	public Users getUserById(int id){
+		return userRepo.findUserById(id);
+	}
 	
 	
 	public Users save(Users user) {

@@ -27,7 +27,7 @@ public class ReviewController {
 
     @RequestMapping(value = "/review/delete/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public ResponseEntity<Object> delete(@PathVariable("id") long id) {
+    public ResponseEntity<?> delete(@PathVariable("id") long id) {
         if(reviewDao.deleteReview(id)) {
             return new ResponseEntity<>("Review is deleted", HttpStatus.OK);
         }
@@ -36,14 +36,19 @@ public class ReviewController {
     }
 
 	@GetMapping(value = "/review", params = "reviewId")
-	public Review getReviewById(@RequestParam int reviewId) {
-		
-		return reviewDao.getReviewById(reviewId);
+	public ResponseEntity<?> getReviewById(@RequestParam int reviewId) {
+
+        Review review=reviewDao.getReviewById(reviewId);
+        if(review!=null) {
+            return new ResponseEntity<>(review, HttpStatus.OK);
+        }
+        else
+            return new ResponseEntity<>("Review not found", HttpStatus.NOT_FOUND);
 		
 	}
 
 	@RequestMapping(value = "/review/edit/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Object> changeReviewStatus(@PathVariable("id") int id, @RequestParam("status")String status) { 
+	public ResponseEntity<?> changeReviewStatus(@PathVariable("id") int id, @RequestParam("status")String status) {
       	
 		ReviewView review=reviewDao.changeReviewStatus(id,status);
 		if(review!=null) {

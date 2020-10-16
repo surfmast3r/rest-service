@@ -1,17 +1,15 @@
 package com.ingsw.restservice.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.*;
 
 import com.ingsw.restservice.config.JwtTokenUtil;
 import com.ingsw.restservice.model.DTO.JwtRequest;
@@ -33,7 +31,7 @@ public class UserController {
 	private UserDaoSql userDetailsService;
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public ResponseEntity<?> saveUser(@RequestBody Users user) throws Exception {
+	public ResponseEntity<?> saveUser(@RequestBody Users user){
 		return ResponseEntity.ok(userDetailsService.save(user));
 	}
 	
@@ -45,6 +43,14 @@ public class UserController {
 				.loadUserByUsername(authenticationRequest.getUsername());
 		final String token = jwtTokenUtil.generateToken(userDetails);
 		return ResponseEntity.ok(new JwtResponse(token, userDetailsService.getUserIdByNickname(authenticationRequest.getUsername())));
+	}
+
+	@RequestMapping(value = "/account_details", method = RequestMethod.GET)
+	public ResponseEntity<?> getAccountDetails(@RequestParam int id){
+		Users u = userDetailsService.getUserById(id);
+
+		if(u!=null) return new ResponseEntity<>(u, HttpStatus.OK);
+		return  new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
 	}
 	
 	private void authenticate(String username, String password) throws Exception {

@@ -13,5 +13,8 @@ public interface UserRepository extends CrudRepository<Users, Long>{
 	@Query("SELECT user FROM Users user WHERE user.nickname = ?1")
 	Users findUserByNickname(String nickname);
 
+	@Query("SELECT user from Users user WHERE  user.id = ?1")
+	Users findUserById(int id);
 
 }
+
