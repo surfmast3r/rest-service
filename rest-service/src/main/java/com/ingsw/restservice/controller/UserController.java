@@ -17,6 +17,9 @@ import com.ingsw.restservice.model.DTO.JwtResponse;
 import com.ingsw.restservice.model.Users;
 import com.ingsw.restservice.model.UserDaoSql;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+
 @RestController
 @CrossOrigin
 public class UserController {
@@ -46,12 +49,28 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/account_details", method = RequestMethod.GET)
-	public ResponseEntity<?> getAccountDetails(@RequestParam int id){
+	public ResponseEntity<?> getAccountDetails(@RequestParam int id, HttpServletRequest request){
 		Users u = userDetailsService.getUserById(id);
 
-		if(u!=null) return new ResponseEntity<>(u, HttpStatus.OK);
-		return  new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
-	}
+		final String requestTokenHeader = request.getHeader("Authorization");
+		String role=null;
+		String jwtToken;
+		int idRequest;
+
+		if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
+			jwtToken = requestTokenHeader.substring(7);
+			idRequest=userDetailsService.getUserIdByNickname(jwtTokenUtil.getUsernameFromToken(jwtToken));
+
+			ArrayList<String> listRole = jwtTokenUtil.getRoleFromToken(jwtToken);
+			role=listRole.get(0);
+			System.out.println(role);
+			if(role.equals("ADMIN") || idRequest==id)
+				if(u!=null) return new ResponseEntity<>(u, HttpStatus.OK);
+			return  new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+
+			}
+			return new ResponseEntity<>("Unauthorized",HttpStatus.UNAUTHORIZED);
+		}
 	
 	private void authenticate(String username, String password) throws Exception {
 		try {

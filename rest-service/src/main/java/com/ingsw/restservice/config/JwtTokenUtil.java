@@ -3,9 +3,7 @@ package com.ingsw.restservice.config;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -54,7 +52,13 @@ public class JwtTokenUtil implements Serializable {
 		claims.put("roles",userDetails.getAuthorities());
 		return doGenerateToken(claims, userDetails.getUsername());
 	}
-	
+	public ArrayList<String> getRoleFromToken(String token){
+		ArrayList<String> role;
+		Claims claims = getAllClaimsFromToken(token);
+		role=(ArrayList<String>)claims.get("roles");
+		return role;
+	}
+
 	//while creating the token -
 	//1. Define  claims of the token, like Issuer, Expiration, Subject, and the ID
 	//2. Sign the JWT using the HS512 algorithm and secret key.
