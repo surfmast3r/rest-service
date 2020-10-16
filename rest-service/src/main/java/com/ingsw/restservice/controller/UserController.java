@@ -67,18 +67,29 @@ public class UserController {
 			if(role.equals("ROLE_ADMIN") || idRequest==id)
 				return new ResponseEntity<>(u, HttpStatus.OK);
 			}
-			return new ResponseEntity<>("Unauthorized",HttpStatus.UNAUTHORIZED);
-		}
+		return new ResponseEntity<>("Unauthorized",HttpStatus.UNAUTHORIZED);
+	}
 
 	@RequestMapping(value = "/setShowNickname", method = RequestMethod.PUT)
 	public ResponseEntity<Object> setShowNickname(@RequestParam int id,@RequestParam boolean value, HttpServletRequest request){
+		final String requestTokenHeader = request.getHeader("Authorization");
+		String role=null;
+		String jwtToken;
+		int idRequest;
+		if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
+			jwtToken = requestTokenHeader.substring(7);
+			idRequest = userDetailsService.getUserIdByNickname(jwtTokenUtil.getUsernameFromToken(jwtToken));
+			role = jwtTokenUtil.getRoleFromToken(jwtToken);
+			System.out.println(role);
+			if (role.equals("ROLE_ADMIN") || idRequest == id) {
+				int response = userDetailsService.setShowNickname(id, value);
+				if (response > 0)
+					return new ResponseEntity(new JsonResponse(true, "ShowNickname aggiornato"), HttpStatus.ACCEPTED);
+				else
+					return new ResponseEntity(new JsonResponse(false, "User Not Found"), HttpStatus.NOT_FOUND);
+			}
 
-		Boolean response=userDetailsService.setShowNickname(id,value);
-		if(response)
-			return new ResponseEntity(new JsonResponse(true,"ShowNickname aggiornato"),HttpStatus.ACCEPTED);
-		else
-			return new ResponseEntity(new JsonResponse(response,"User Not Found"),HttpStatus.NOT_FOUND);
-
+		}return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
 	}
 
 

@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +55,7 @@ public class UserDaoSql implements UserDetailsService {
 		return userRepo.save(newUser);
 	}
 
-	public Boolean setShowNickname(int id, boolean value){
+	public int setShowNickname(int id, boolean value){
 		return userRepo.setShowNickname(id,value);
 	}
 
