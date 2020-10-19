@@ -33,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.authorizeRequests().antMatchers("/","/review","/accommodation","/authenticate",
 				"/register","/review_view","/single_review_view","/accommodation_generic","/accommodation_location").permitAll()
 		.antMatchers("/accommodation/**","/review/**").hasRole("ADMIN")
-		.antMatchers("/account_details","/review/create").access("hasRole('ADMIN') or hasRole('USER')")
+		.antMatchers("/account_details","/review/create","set_show_nickname").access("hasRole('ADMIN') or hasRole('USER')")
 				.anyRequest()
 		.authenticated()
 		.and().

@@ -70,7 +70,7 @@ public class UserController {
 		return new ResponseEntity<>("Unauthorized",HttpStatus.UNAUTHORIZED);
 	}
 
-	@RequestMapping(value = "/setShowNickname", method = RequestMethod.PUT)
+	@RequestMapping(value = "/set_show_nickname", method = RequestMethod.PUT)
 	public ResponseEntity<Object> setShowNickname(@RequestParam int id,@RequestParam boolean value, HttpServletRequest request){
 		final String requestTokenHeader = request.getHeader("Authorization");
 		String role=null;
@@ -84,7 +84,7 @@ public class UserController {
 			if (role.equals("ROLE_ADMIN") || idRequest == id) {
 				int response = userDetailsService.setShowNickname(id, value);
 				if (response > 0)
-					return new ResponseEntity(new JsonResponse(true, "ShowNickname aggiornato"), HttpStatus.ACCEPTED);
+					return new ResponseEntity(new JsonResponse(true, "ShowNickname aggiornato"), HttpStatus.OK);
 				else
 					return new ResponseEntity(new JsonResponse(false, "User Not Found"), HttpStatus.NOT_FOUND);
 			}

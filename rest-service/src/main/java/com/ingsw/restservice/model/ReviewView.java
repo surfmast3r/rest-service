@@ -34,7 +34,7 @@ public class ReviewView implements Serializable{
 
 
     public ReviewView(){
-        //VACANTE
+
     };
 
     public long getId() {
