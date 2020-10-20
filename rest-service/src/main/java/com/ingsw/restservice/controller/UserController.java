@@ -16,9 +16,9 @@ import com.ingsw.restservice.model.DTO.JwtRequest;
 import com.ingsw.restservice.model.DTO.JwtResponse;
 import com.ingsw.restservice.model.Users;
 import com.ingsw.restservice.model.UserDaoSql;
-//import com.facebook.GraphResponse;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 @RestController
 @CrossOrigin
@@ -102,9 +102,24 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/facebook_login", method = RequestMethod.GET)
-	public ResponseEntity<?> loginByFb(@RequestParam String tokenFb){
-		UserDetails userFb= userDetailsService.authenticateByFacebookToken(tokenFb);
-		final String tokenJwt = jwtTokenUtil.generateToken(userFb);
-		return ResponseEntity.ok(new JwtResponse(tokenJwt,userDetailsService.getUserIdByNickname(userFb.getUsername())));
+	public ResponseEntity<?> loginByFb(@RequestParam String tokenFb)  {
+		Long userId= null;
+		UserDetails user;
+
+		try {
+			userId = userDetailsService.verifyFbToken(tokenFb);
+			if(userId>0){
+				 user=userDetailsService.loadUserByUsername(userId.toString());
+				if (user==null){
+					userDetailsService.registerUserFromIdFacebook(userId,tokenFb);
+					user=userDetailsService.loadUserByUsername(userId.toString());
+				}
+				final String tokenJwt = jwtTokenUtil.generateToken(user);
+				return ResponseEntity.ok(new JwtResponse(tokenJwt,userDetailsService.getUserIdByNickname(user.getUsername())));
+			}
+			return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+		} catch (IOException e) {
+			return new ResponseEntity<>("SERVER ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 }

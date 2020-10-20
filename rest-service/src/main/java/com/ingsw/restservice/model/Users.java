@@ -24,16 +24,6 @@ public class Users {
 	public Users(){
 
 	}
-	public Users(int id, String nome, String cognome, String email, String pwd, String nickname, Boolean showNickname, String userRole) {
-		this.id = id;
-		this.nome = nome;
-		this.cognome = cognome;
-		this.email = email;
-		this.pwd = pwd;
-		this.nickname = nickname;
-		this.showNickname = showNickname;
-		this.userRole = userRole;
-	}
 
 
 	public String getUserRole() {
