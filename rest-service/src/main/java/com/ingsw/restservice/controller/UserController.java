@@ -1,7 +1,6 @@
 package com.ingsw.restservice.controller;
 
 import com.ingsw.restservice.model.DTO.JsonResponse;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +9,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import com.ingsw.restservice.config.JwtTokenUtil;
@@ -18,9 +16,9 @@ import com.ingsw.restservice.model.DTO.JwtRequest;
 import com.ingsw.restservice.model.DTO.JwtResponse;
 import com.ingsw.restservice.model.Users;
 import com.ingsw.restservice.model.UserDaoSql;
+//import com.facebook.GraphResponse;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 
 @RestController
 @CrossOrigin
@@ -103,5 +101,10 @@ public class UserController {
 		}
 	}
 
-
+	@RequestMapping(value = "/facebook_login", method = RequestMethod.GET)
+	public ResponseEntity<?> loginByFb(@RequestParam String tokenFb){
+		UserDetails userFb= userDetailsService.authenticateByFacebookToken(tokenFb);
+		final String tokenJwt = jwtTokenUtil.generateToken(userFb);
+		return ResponseEntity.ok(new JwtResponse(tokenJwt,userDetailsService.getUserIdByNickname(userFb.getUsername())));
+	}
 }

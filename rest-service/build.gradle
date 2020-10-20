@@ -10,11 +10,16 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '8'
 
 repositories {
+	google()
+	jcenter()
 	mavenCentral()
 }
 
 dependencies {
 
+	implementation 'com.google.code.gson:gson:2.8.6'
+	implementation 'com.google.guava:guava:28.0-jre'
+	implementation 'com.facebook.android:facebook-android-sdk:[5,6)' // Adjust the version accordingly
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
