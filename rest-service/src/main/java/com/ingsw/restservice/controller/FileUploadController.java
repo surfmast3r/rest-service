@@ -52,11 +52,11 @@ public class FileUploadController {
     public ResponseEntity<ImageUploadResponse> handleFileUpload(@RequestParam("file") MultipartFile file,
                                                         RedirectAttributes redirectAttributes) {
 
-        storageService.store(file);
+        String fileUrl=storageService.store(file);
 
         return new ResponseEntity<ImageUploadResponse>(new ImageUploadResponse(
                 "You successfully uploaded " + file.getOriginalFilename() + "!",
-                "http://localhost:5000/"+storageService.getImagesFolderLocation().toString()+"/"+file.getOriginalFilename()),HttpStatus.OK);
+                fileUrl),HttpStatus.OK);
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)

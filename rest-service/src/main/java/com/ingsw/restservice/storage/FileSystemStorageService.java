@@ -17,7 +17,7 @@ import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-@Service
+//@Service
 public class FileSystemStorageService implements StorageService {
 
     private final Path rootLocation;
@@ -33,7 +33,7 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
-    public void store(MultipartFile file) {
+    public String store(MultipartFile file) {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
         try {
             if (file.isEmpty()) {
@@ -53,6 +53,12 @@ public class FileSystemStorageService implements StorageService {
         catch (IOException e) {
             throw new StorageException("Failed to store file " + filename, e);
         }
+        return filename;
+    }
+
+    @Override
+    public String delete(String fileUrl) {
+        return null;
     }
 
     @Override
