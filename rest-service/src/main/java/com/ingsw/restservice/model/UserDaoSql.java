@@ -31,14 +31,14 @@ public class UserDaoSql implements UserDetailsService {
 	private PasswordEncoder bcryptEncoder;
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String username) {
 		Users user = userRepo.findUserByNickname(username);
-		List<UserRolesCV> roles = new ArrayList<>();
-		roles.add(new UserRolesCV(user.getUserRole()));
-		if (user.getNickname().equals(username)) {
+		if(user!=null){
+			List<UserRolesCV> roles = new ArrayList<>();
+			roles.add(new UserRolesCV(user.getUserRole()));
 			return new User(user.getNickname(), user.getPwd(), roles);
 		} else {
-			throw new UsernameNotFoundException("User not found with username: " + username);
+			return null;
 		}
 	}
 
@@ -64,56 +64,5 @@ public class UserDaoSql implements UserDetailsService {
 		return userRepo.setShowNickname(id, value);
 	}
 
-	public Long verifyFbToken(String token) throws IOException {
-		String url = "https://graph.facebook.com/debug_token?input_token=" + token +
-				"&access_token=378139930005882|M1foQMocmRROF6_1HvBgnSKAoFQ";
-		URL urlString = new URL(url);
-		HttpURLConnection connection;
-		connection = (HttpURLConnection) urlString.openConnection();
-		connection.setRequestMethod("GET");
-		if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-			BufferedReader json = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			JsonElement jsonTree = JsonParser.parseReader(json);
-			JsonObject response = jsonTree.getAsJsonObject();
-			if (((JsonObject) response.get("data")).get("is_valid").getAsBoolean()) {
-				return ((JsonObject)response.get("data")).get("user_id").getAsLong();
-			}
-		}
-		return (long) -1;
-	}
-
-
-	public Users registerUserFromIdFacebook(Long userId, String token) throws IOException {
-
-		String urlFbDetailsUser = "https://graph.facebook.com/v8.0/" + userId
-				+ "?fields=id%2Cfirst_name%2Clast_name%2Cemail&access_token="
-				+ token;
-		URL urlString = new URL(urlFbDetailsUser);
-		HttpURLConnection connection;
-		connection = (HttpURLConnection) urlString.openConnection();
-		connection.setRequestMethod("GET");
-		if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-			BufferedReader json = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			JsonElement jsonTree = JsonParser.parseReader(json);
-			JsonObject response = jsonTree.getAsJsonObject();
-			String userEmail = response.get("email").getAsString();
-			String name = response.get("first_name").getAsString();
-			String lastName = response.get("last_name").getAsString();
-
-			PasswordGenerator passwordGenerator = new PasswordGenerator();
-
-			Users newUser = new Users();
-			newUser.setEmail(userEmail);
-			newUser.setNome(name);
-			newUser.setCognome(lastName);
-			newUser.setNickname(userId.toString());
-			newUser.setPwd(passwordGenerator.generateRandomPassword(8));
-
-			return save(newUser);
-
-
-		}
-		return  null;
-	}
 
 }

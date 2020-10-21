@@ -1,6 +1,7 @@
 package com.ingsw.restservice.controller;
 
 import com.ingsw.restservice.model.DTO.JsonResponse;
+import com.ingsw.restservice.model.FacebookLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,9 @@ public class UserController {
 	
 	@Autowired
 	private UserDaoSql userDetailsService;
+
+	@Autowired
+	private FacebookLoginService facebookLoginService;
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ResponseEntity<?> saveUser(@RequestBody Users user){
@@ -107,11 +111,11 @@ public class UserController {
 		UserDetails user;
 
 		try {
-			userId = userDetailsService.verifyFbToken(tokenFb);
+			userId = facebookLoginService.verifyFbToken(tokenFb);
 			if(userId>0){
 				 user=userDetailsService.loadUserByUsername(userId.toString());
 				if (user==null){
-					userDetailsService.registerUserFromIdFacebook(userId,tokenFb);
+					facebookLoginService.registerUserFromIdFacebook(userId,tokenFb);
 					user=userDetailsService.loadUserByUsername(userId.toString());
 				}
 				final String tokenJwt = jwtTokenUtil.generateToken(user);

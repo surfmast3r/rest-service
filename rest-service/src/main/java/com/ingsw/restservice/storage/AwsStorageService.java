@@ -60,29 +60,6 @@ public class AwsStorageService implements StorageService{
         return "Successfully deleted";
     }
 
-    @Override
-    public Stream<Path> loadAll() {
-        return null;
-    }
-
-    @Override
-    public Path load(String filename) {
-        return null;
-    }
-
-    @Override
-    public Resource loadAsResource(String filename) {
-        return null;
-    }
-
-    @Override
-    public Path getImagesFolderLocation() {
-        return null;
-    }
-
-    @Override
-    public void deleteAll() {
-    }
     private File convertMultiPartToFile(MultipartFile file) throws IOException {
         File convFile = new File(file.getOriginalFilename());
         FileOutputStream fos = new FileOutputStream(convFile);
