@@ -8,16 +8,13 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Date;
-import java.util.stream.Stream;
 
 @Service
 public class AwsStorageService implements StorageService{
@@ -31,6 +28,7 @@ public class AwsStorageService implements StorageService{
     private String accessKey;
     @Value("${amazonProperties.secretKey}")
     private String secretKey;
+
     @Override
     public void init() {
         AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
@@ -39,16 +37,16 @@ public class AwsStorageService implements StorageService{
 
     @Override
     public String store(MultipartFile multipartFile) {
-
+        String fileName="";
         String fileUrl = "";
         try {
             File file = convertMultiPartToFile(multipartFile);
-            String fileName = generateFileName(multipartFile);
+            fileName = generateFileName(multipartFile);
             fileUrl = endpointUrl + "/" + fileName;
             uploadFileTos3bucket(fileName, file);
             file.delete();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new StorageException("Failed to store file " + fileName, e);
         }
         return fileUrl;
     }
