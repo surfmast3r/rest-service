@@ -1,6 +1,7 @@
 package com.ingsw.restservice.controller;
 
 import com.ingsw.restservice.model.DTO.JsonResponse;
+import com.ingsw.restservice.model.DTO.JwtFacebookResponse;
 import com.ingsw.restservice.model.FacebookLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -67,6 +68,7 @@ public class UserController {
 			role=jwtTokenUtil.getRoleFromToken(jwtToken);
 			System.out.println(role);
 			if(role.equals("ROLE_ADMIN") || idRequest==id)
+				u.setPwd(u.getPwd());
 				return new ResponseEntity<>(u, HttpStatus.OK);
 			}
 		return new ResponseEntity<>("Unauthorized",HttpStatus.UNAUTHORIZED);
@@ -109,19 +111,19 @@ public class UserController {
 	public ResponseEntity<?> loginByFb(@RequestParam String tokenFb)  {
 		Long userId= null;
 		UserDetails user;
-
+		String pass =null;
 		try {
 			userId = facebookLoginService.verifyFbToken(tokenFb);
-			if(userId>0){
-				 user=userDetailsService.loadUserByUsername(userId.toString());
-				if (user==null){
-					facebookLoginService.registerUserFromIdFacebook(userId,tokenFb);
-					user=userDetailsService.loadUserByUsername(userId.toString());
+			if(userId>0) {
+				user = userDetailsService.loadUserByUsername(userId.toString());
+				if (user == null) {
+					facebookLoginService.registerUserFromIdFacebook(userId, tokenFb);
+					user = userDetailsService.loadUserByUsername(userId.toString());
 				}
 				final String tokenJwt = jwtTokenUtil.generateToken(user);
-				return ResponseEntity.ok(new JwtResponse(tokenJwt,userDetailsService.getUserIdByNickname(user.getUsername())));
+				return ResponseEntity.ok(new JwtFacebookResponse(tokenJwt, userDetailsService.getUserIdByNickname(user.getUsername()),user.getUsername()));
 			}
-			return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+				return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
 		} catch (IOException e) {
 			return new ResponseEntity<>("SERVER ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
 		}

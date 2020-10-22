@@ -56,14 +56,12 @@ public class FacebookLoginService {
             String name = response.get("first_name").getAsString();
             String lastName = response.get("last_name").getAsString();
 
-            PasswordGenerator passwordGenerator = new PasswordGenerator();
-
             Users newUser = new Users();
             newUser.setEmail(userEmail);
             newUser.setNome(name);
             newUser.setCognome(lastName);
             newUser.setNickname(userId.toString());
-            newUser.setPwd(passwordGenerator.generateRandomPassword(8));
+            newUser.setPwd(PasswordGenerator.generateRandomPassword(8));
 
             return userDetailsService.save(newUser);
 
