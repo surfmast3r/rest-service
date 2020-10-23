@@ -41,7 +41,7 @@ public class AccommodationController {
 													@RequestParam(name = "description", required = false, defaultValue = "") String description,
 													@RequestParam(name = "category", required = false, defaultValue = "") String category,
 													@RequestParam(name = "subCategory", required = false, defaultValue = "") String subCategory,
-													@RequestParam(name = "orderBy", required = false, defaultValue = "id") String orderBy,
+													@RequestParam(name = "orderBy", required = false, defaultValue = "name") String orderBy,
 													@RequestParam(name = "direction", required = false, defaultValue = "DESC") String direction,
 													@RequestParam(name = "latitude", required = false, defaultValue = "-200") Double latitude,
 													@RequestParam(name = "longitude", required = false, defaultValue = "-200") Double longitude,
@@ -84,7 +84,7 @@ public class AccommodationController {
 														 @RequestParam(name = "category", required = false, defaultValue = "") String category,
 														 @RequestParam(name = "subCategory", required = false, defaultValue = "") String subCategory,
 														 @RequestParam(name = "direction", required = false, defaultValue = "DESC") String direction,
-														 @RequestParam(name = "orderBy", required = false, defaultValue = "id") String orderBy,
+														 @RequestParam(name = "orderBy", required = false, defaultValue = "name") String orderBy,
 														 @RequestParam(name = "page", required = false, defaultValue = "0") int page) {
 
 		JsonPageResponse<Accommodation> accommodationList;
