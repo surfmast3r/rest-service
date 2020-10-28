@@ -1,8 +1,13 @@
 package com.ingsw.restservice.controller;
 
+import com.ingsw.restservice.model.Accommodation;
+import com.ingsw.restservice.model.AccommodationDao;
 import com.ingsw.restservice.model.DTO.EmptyJsonResponse;
 import com.ingsw.restservice.model.DTO.JsonPageResponse;
 import com.ingsw.restservice.model.DTO.JsonResponse;
+import com.ingsw.restservice.model.SearchParamsAccommodation;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Sort;
@@ -15,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.ingsw.restservice.model.*;
 
 import java.util.List;
 

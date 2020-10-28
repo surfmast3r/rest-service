@@ -1,8 +1,5 @@
 package com.ingsw.restservice.controller;
 
-import com.ingsw.restservice.model.DTO.JsonResponse;
-import com.ingsw.restservice.model.DTO.JwtFacebookResponse;
-import com.ingsw.restservice.model.FacebookLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +15,9 @@ import com.ingsw.restservice.model.DTO.JwtRequest;
 import com.ingsw.restservice.model.DTO.JwtResponse;
 import com.ingsw.restservice.model.Users;
 import com.ingsw.restservice.model.UserDaoSql;
+import com.ingsw.restservice.model.DTO.JsonResponse;
+import com.ingsw.restservice.model.DTO.JwtFacebookResponse;
+import com.ingsw.restservice.model.FacebookLoginService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
