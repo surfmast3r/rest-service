@@ -40,12 +40,20 @@ public class UserController {
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ResponseEntity<?> saveUser(@RequestBody Users user){
-		if(!userDetailsService.validateUsername(user.getNickname()))
-			return new ResponseEntity ("Invalid Username",HttpStatus.UNPROCESSABLE_ENTITY);
+		Integer checkResponse=userDetailsService.validateUserData(user);
+		switch (checkResponse){
+			case 1:
+				return new ResponseEntity<> (new JsonResponse(false ,"Username: minimo 6 massimo 20 caratteri"),HttpStatus.OK);
+			case 2:
+				return new ResponseEntity<> (new JsonResponse(false ,"Password: minimo 8 massimo 20 caratteri"),HttpStatus.OK);
+			case 3:
+				return new ResponseEntity<> (new JsonResponse(false ,"Email: formato non valido"),HttpStatus.OK);
+		}
+
 		if(userDetailsService.getUserIdByNickname(user.getNickname())>0)
-			return new ResponseEntity<>("Username already exists",HttpStatus.CONFLICT);
+			return new ResponseEntity<>(new JsonResponse(false ,"Username già esistente"),HttpStatus.OK);
 		else
-			return ResponseEntity.ok(userDetailsService.save(user));
+			return new ResponseEntity<>(userDetailsService.save(user),HttpStatus.CREATED);
 	}
 	
 	

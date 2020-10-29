@@ -14,6 +14,11 @@ import java.util.List;
 @Service
 public class UserDaoSql implements UserDetailsService {
 
+	private static final Integer INVALID_USERNAME = 1;
+	private static final Integer VALIDATED = 0;
+	private static final Integer INVALID_PASSWORD = 2;
+	private static final Integer INVALID_EMAIL = 3;
+	private static final String EMAIL_REGEX = "^(.+)@(.+)$";
 	@Autowired
 	UserRepository userRepo;
 
@@ -33,7 +38,13 @@ public class UserDaoSql implements UserDetailsService {
 	}
 
 	public Integer getUserIdByNickname(String nickname) {
-		return userRepo.findUserByNickname(nickname).getId();
+		Users user = userRepo.findUserByNickname(nickname);
+		if (user!=null)
+		{
+			return user.getId();
+		}
+		return -1;
+
 	}
 
 	public Users getUserById(int id) {
@@ -53,8 +64,21 @@ public class UserDaoSql implements UserDetailsService {
 		return userRepo.setShowNickname(id, value);
 	}
 
+	public Integer validateUserData(Users user) {
+		String username= user.getNickname();
+		String pwd = user.getPwd();
+		String email = user.getEmail();
 
-	public boolean validateUsername(String username) {
-		return username.length() > 5 ;
+		if(username.length()<6||username.length()>20)
+			return INVALID_USERNAME ;
+
+		if(pwd.length()<8||pwd.length()>20){
+			return INVALID_PASSWORD;
+		}
+
+		if(!email.matches(EMAIL_REGEX))
+			return INVALID_EMAIL;
+
+		return VALIDATED;
 	}
 }
