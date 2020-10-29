@@ -14,7 +14,7 @@ class UserDaoSqlTest {
        userDaoSql=new UserDaoSql();
     }
 
-    /*BlackBox validateUserData*/
+    /*BlackBox validateUserData*/ // WECT TEST
     @Test
     void validateUserDataWithUsernameLessThen6AndCorrectEmailAndPassword() {
         user.setEmail("email@gmail.com");
