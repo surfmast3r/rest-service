@@ -37,10 +37,15 @@ public class UserController {
 
 	@Autowired
 	private FacebookLoginService facebookLoginService;
-	
+
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ResponseEntity<?> saveUser(@RequestBody Users user){
-		return ResponseEntity.ok(userDetailsService.save(user));
+		if(!userDetailsService.validateUsername(user.getNickname()))
+			return new ResponseEntity ("Invalid Username",HttpStatus.UNPROCESSABLE_ENTITY);
+		if(userDetailsService.getUserIdByNickname(user.getNickname())>0)
+			return new ResponseEntity<>("Username already exists",HttpStatus.CONFLICT);
+		else
+			return ResponseEntity.ok(userDetailsService.save(user));
 	}
 	
 	

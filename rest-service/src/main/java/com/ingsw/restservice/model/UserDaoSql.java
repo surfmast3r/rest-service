@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -47,7 +46,6 @@ public class UserDaoSql implements UserDetailsService {
 		user.setPwd(bcryptEncoder.encode(user.getPwd()));
 		user.setUserRole("ROLE_USER");
 		user.setShowNickname(true);
-
 		return userRepo.save(user);
 	}
 
@@ -56,4 +54,7 @@ public class UserDaoSql implements UserDetailsService {
 	}
 
 
+	public boolean validateUsername(String username) {
+		return username.length() > 5 ;
+	}
 }
