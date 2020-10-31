@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.ingsw.restservice.config.PasswordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -16,12 +17,15 @@ import java.net.URL;
 @Service
 public class FacebookLoginService {
 
+    @Value("${facebook.accessKey}")
+    private String accessKey;
+
     @Autowired
     private UserDaoSql userDetailsService;
 
     public Long verifyFbToken(String token) throws IOException {
         String url = "https://graph.facebook.com/debug_token?input_token=" + token +
-                "&access_token=378139930005882|M1foQMocmRROF6_1HvBgnSKAoFQ";
+                "&access_token="+accessKey;
         URL urlString = new URL(url);
         HttpURLConnection connection;
         connection = (HttpURLConnection) urlString.openConnection();
